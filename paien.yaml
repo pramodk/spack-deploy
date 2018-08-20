@@ -73,22 +73,24 @@ packages:
       - architecture
       - compiler
     specs:
-      - cmake@3.11.1
-      - m4@1.4.18
       - autoconf@2.69
       - automake@1.16.1
+      - cmake@3.11.1
+      - curl@7.59.0
+      - git@2.17.0
+      - gnuplot@5.2.2 +X+pbm+wx ^pango+X
+      - i7z@epfl-scitas
       - libtool@2.4.6
       - lmod@7.7.29
-      - gnuplot@5.2.2 +X+pbm+wx ^pango+X
-      - git@2.17.0
-      - tmux@2.7
-      - scala@2.12.5
-      - spark@2.3.0+hadoop
-      # - picard@2.18.3
-      - tar@1.30
-      - sbt@1.1.4
+      - m4@1.4.18
       - mercurial@4.4.1
-      - i7z@epfl-scitas
+      - molden+gmolden+ambfor+surf
+      # - picard@2.18.3
+      - sbt@1.1.4
+      - scala@2.11.11
+      - spark@2.3.0+hadoop
+      - tar@1.30
+      - tmux@2.7
 
   # List of third-party tools or of packages that are maintained
   # in our own repository
@@ -106,8 +108,8 @@ packages:
         - mathematica@11.1.1
         - ansys@17.1
         - totalview@2017.2.11
-        - comsol@5.2a
-        # - gaussian@g16-A.03
+        - comsol@5.3
+        - gaussian@g16-A.03
         - smr@2017.06
         - cfdplusplus@16.1
         - fdtd@8.19.1416-1
@@ -158,6 +160,20 @@ packages:
       # - py-ase+matplotlib+scipy@3.11.0^py-matplotlib@1.4.3^py-numpy+blas+lapack@1.11.0
       - py-scikit-learn@0.19.1 ^py-scipy@1.1.0 ^py-numpy+blas+lapack@1.14.3
       - py-theano@1.0.2~gpu ^py-scipy@1.1.0 ^py-numpy+blas+lapack@1.14.3
+
+  gnu-python_lapack_openmp:
+    target_matrix:
+      - gnu-stable
+      - gnu-bleeding-edge
+    target_filter:
+      lapack: ['openblas@0.2.20 threads=openmp']
+    requires:
+      - architecture
+      - compiler
+      - python
+      - lapack
+    specs:
+      - py-pytorch ~cuda ^py-numpy +blas +lapack@1.14.3
 
 # FIXME: port these 2 packages either to develop or to the external repository
 #   # Python 2 only packages
@@ -310,11 +326,11 @@ packages:
 #       - elpa@2017.11.001
       - mumps@5.1.1+mpi+parmetis+metis+scotch+ptscotch ^parmetis@4.0.3 ^metis@5.1.0+real64 ^scotch@6.0.4+esmumps+mpi~metis
 
-#   ##########
-#   # Applications / Frameworks
-#   ##########
-#
-#   # Serial applications built with the Intel stack
+  ##########
+  # Applications / Frameworks
+  ##########
+
+  # Serial applications built with the Intel stack
   intel-serial-applications:
     target_matrix:
       - intel
@@ -362,8 +378,11 @@ packages:
         ^plumed@2.4.1+mpi+gsl ^gsl@2.4
       - cp2k@5.1+mpi~plumed smm=none ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512 ^parmetis@4.0.3 ^metis@5.1.0+real64
       - cp2k@5.1+mpi+plumed smm=none ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512 ^parmetis@4.0.3 ^metis@5.1.0+real64 ^plumed@2.4.1+mpi+gsl ^gsl@2.4
-#       - espresso@6.1.0+mpi+scalapack+hdf5 ^fftw@3.3.6-pl2+mpi~openmp ^hdf5@1.10.1+szip+mpi~cxx
-#       - espresso@6.1.0+mpi+scalapack ^fftw@3.3.6-pl2+mpi~openmp
+      - quantum-espresso@6.2.0+mpi+scalapack+hdf5
+        ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
+        ^hdf5@1.10.1+szip+mpi+hl+fortran+cxx
+      - quantum-espresso@6.2.0+mpi+scalapack
+        ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
 #       - namd fftw=mkl interface=python @2.12 ^charm backend=mpi ^python@2.7.14+tk
 #       - amber@16+mpi ^netcdf-fortran@4.4.4 ^netcdf@4.4.1.1+mpi ^hdf5@1.10.1+szip+mpi~cxx ^py-scipy@0.19.0 ^py-matplotlib@2.0.0 ^py-numpy+blas+lapack@1.12.1 ^python@2.7.13
       - yambo@4.2.1+mpi io=iotk,etsf-io
@@ -390,17 +409,15 @@ packages:
         ^netcdf@4.6.1+mpi ^hdf5@1.10.1+szip+mpi+hl+fortran+cxx
 
   # Serial applications built with the Intel stack that use LAPACK
-# FIXME: See https://software.intel.com/en-us/forums/intel-c-compiler/topic/758013
-# FIXME: for pixman and related libraries
-#   intel-lapack-applications:
-#     target_matrix:
-#       - intel
-#     requires:
-#       - architecture
-#       - compiler
-#       - lapack
-#     specs:
-#       - r@3.5.0+external-lapack
+  intel-lapack-applications:
+    target_matrix:
+      - intel
+    requires:
+      - architecture
+      - compiler
+      - lapack
+    specs:
+      - r@3.5.0+external-lapack
 
   # Serial applications built with the GNU stable stack
   gnu-serial-applications:
@@ -466,10 +483,13 @@ packages:
       - cp2k@5.1+mpi+plumed smm=none ^netlib-scalapack@2.0.2 ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512 ^parmetis@4.0.3 ^metis@5.1.0+real64 ^plumed@2.4.1+mpi+gsl ^gsl@2.4
       - nwchem@6.8 ^netlib-scalapack@2.0.2 ^python@2.7.14+tk
       - abinit@8.8.2~hdf5~openmp+mpi+scalapack ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512 ^netlib-scalapack@2.0.2
-# TODO: this should be renamed to Quantum espresso
-#       - espresso@6.1.0+mpi+scalapack ^fftw@3.3.6-pl2+mpi~openmp ^netlib-scalapack@2.0.2
-#       - espresso@6.1.0+mpi+scalapack+hdf5 ^fftw@3.3.6-pl2+mpi~openmp ^netlib-scalapack@2.0.2 ^hdf5@1.10.1+szip+mpi~cxx
-# TODO: port the package from cornalin
+      - quantum-espresso@6.2.0+mpi+scalapack
+        ^netlib-scalapack@2.0.2
+        ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
+      - quantum-espresso@6.2.0+mpi+scalapack+hdf5
+        ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
+        ^netlib-scalapack@2.0.2
+        ^hdf5@1.10.1+szip+mpi+hl+fortran+cxx
       - cpmd@v4.1~openmp ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
       - petsc@3.9.2~int64+boost+double+hdf5+metis+mpi+mumps+superlu-dist+hypre+suite-sparse
         ^hdf5@1.10.1+szip+mpi+hl+fortran+cxx
@@ -494,23 +514,23 @@ packages:
         ^fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
         ^netcdf@4.6.1+mpi ^hdf5@1.10.1+szip+mpi+hl+fortran+cxx
 
-#   ##########
-#   # GPU Nodes
-#   ##########
-#
-#   gnu-gpu-serial:
-#     target_matrix:
-#       - gnu-gpu
-#     requires:
-#       - architecture
-#       - compiler
-#     specs:
-#       - fftw@3.3.6-pl2~mpi
-#       - fftw@3.3.6-pl2~mpi+openmp
-#       - cuda@8.0.61
-#       - cudnn@6.0 ^cuda@8.0.61
-#       # FIXME: tensorflow+cuda is missing
-#
+  ##########
+  # GPU Nodes
+  ##########
+
+  gnu-gpu-serial:
+    target_matrix:
+      - gnu-gpu
+    requires:
+      - architecture
+      - compiler
+    specs:
+      - fftw@3.3.7+mpi~openmp+fma simd=sse2,avx,avx2,avx512
+      - fftw@3.3.7+mpi+openmp+fma simd=sse2,avx,avx2,avx512
+      - cuda@9.1.85
+      - cudnn@6.0 ^cuda@9.1.85
+      # FIXME: tensorflow+cuda is missing
+
 #   gnu-gpu-python-lapack:
 #     target_matrix:
 #       - gnu-gpu
@@ -531,18 +551,19 @@ packages:
       - mpi
     specs:
       - osu-micro-benchmarks@5.4+cuda
-#       - boost@1.63.0+icu+mpi+python ^python@2.7.13
-#
-#   gnu-gpu-lapack-libraries:
-#     target_matrix:
-#       - gnu-gpu
-#     requires:
-#       - architecture
-#       - compiler
-#       - lapack
-#     specs:
-#       - magma+fortran
-#
+      - boost@1.67.0+icu+mpi+python ^python@2.7.14+tk
+
+  gnu-gpu-lapack-libraries:
+    target_matrix:
+      - gnu-gpu
+    requires:
+      - architecture
+      - compiler
+      - lapack
+    specs:
+      - magma+fortran ^cuda@9.1.85
+      - py-pytorch +cuda +cudnn ~nccl +magma ^py-numpy +blas +lapack ^magma +fortran +shared ^cuda@9.1.85
+
 #   gnu-gpu-mpi-applications:
 #     target_matrix:
 #       - gnu-gpu
