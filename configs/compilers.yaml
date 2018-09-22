@@ -26,6 +26,8 @@ packages:
       - gcc@5.5.0
       - intel-parallel-studio@cluster.2018.3 +advisor+clck+daal+gdb+inspector+ipp+itac+mkl+mpi+rpath+shared+tbb+vtune
       - intel-parallel-studio@cluster.2017.7 +advisor+clck+daal+gdb+inspector+ipp+itac+mkl+mpi+rpath+shared+tbb+vtune
+      - intel@18.0.3
+      - intel@17.0.7
       - llvm@6.0.1
       - llvm@5.0.1
       - pgi@18.4 +network+nvidia+mpi
