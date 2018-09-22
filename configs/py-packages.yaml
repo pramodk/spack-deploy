@@ -1,0 +1,143 @@
+# axis that defines software deployment strategy
+axis:
+  - architecture
+  - compiler
+  - mpi
+  - lapack
+  - python
+
+# toolchain combinations
+combinations: !include configs/toolchains.yaml
+
+serial-packages: &python-specs
+  specs:
+  - py-argcomplete
+  - py-argparse
+  - py-beautifulsoup4
+  - py-bokeh
+  - py-click
+  - py-coverage
+  - py-cpuinfo
+  - py-csvkit
+  - py-cython
+  - py-cpuinfo
+  - py-dateutil
+  - py-elasticsearch
+  - py-elephant
+  - py-enum34
+  - py-fastaindex
+  - py-flake8
+  - py-future
+  - py-gcovr
+  - py-gnuplot
+  - py-h5py
+  - py-ipykernel
+  - py-ipython
+  - py-ipython-genutils
+  - py-ipywidgets
+  - py-ipython
+  - py-jinja2
+  - py-jupyter-client
+  - py-jupyter-console
+  - py-jupyter-core
+  - py-jupyter-notebook
+  - py-lazy-property
+  - py-line-profiler
+  - py-lxml
+  - py-markdown
+  - py-matplotlib
+  - py-memory-profiler
+  - py-multiprocess
+  - py-neo
+  - py-networkx
+  - py-nose
+  - py-numba
+  - py-pandas
+  - py-perf
+  - py-pil
+  - py-pillow
+  - py-pip
+  - py-ply
+  - py-pynn
+  - py-pytest
+  - py-pyyaml
+  - py-regex
+  - py-setuptools
+  - py-shapely
+  - py-simplejson
+  - py-six
+  - py-slurm-pipeline
+  - py-sphinx
+  - py-sphinx-bootstrap-theme
+  - py-sphinx-rtd-theme
+  - py-symengine
+  - py-sympy
+  - py-toml
+  - py-virtualenv
+  - py-virtualenv-clone
+  - py-virtualenvwrapper
+  - py-wheel
+  - py-yapf
+  - py-zmq
+
+# list of packages to build
+packages:
+  gnu-stable-serial:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - python
+    <<: *python-specs
+  gnu-stable-serial-lapack:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - lapack
+      - python
+    specs:
+    - py-numpy@1.15.1
+    - py-scipy@1.1.0
+  gnu-stable-parallel:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - python
+      - mpi
+    specs:
+    - py-mpi4py@3.0.0
+  # with default intel toolchain
+  intel-stable-serial:
+    target_matrix:
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - python
+    <<: *python-specs
+  intel-stable-serial-lapack:
+    target_matrix:
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - lapack
+      - python
+    specs:
+    - py-numpy@1.15.1
+    - py-scipy@1.1.0
+  intel-stable-parallel:
+    target_matrix:
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+      - python
+    specs:
+    - py-mpi4py@3.0.0
