@@ -1,0 +1,32 @@
+# axis that defines software deployment strategy
+axis:
+  - architecture
+  - compiler
+  - mpi
+  - lapack
+  - python
+
+
+# toolchain combinations
+combinations: !include configs/toolchains.yaml
+
+
+# list of packages to build
+packages:
+  compilers:
+    target_matrix:
+      - core
+    requires:
+      - architecture
+      - compiler
+    specs:
+      - gcc@8.2.0
+      - gcc@7.3.0
+      - gcc@6.4.0
+      - gcc@5.5.0
+      - intel-parallel-studio@cluster.2018.3 +advisor+clck+daal+gdb+inspector+ipp+itac+mkl+mpi+rpath+shared+tbb+vtune
+      - intel-parallel-studio@cluster.2017.7 +advisor+clck+daal+gdb+inspector+ipp+itac+mkl+mpi+rpath+shared+tbb+vtune
+      - llvm@6.0.1
+      - llvm@5.0.1
+      - pgi@18.4 +network+nvidia+mpi
+      - pgi@17.10 +network+nvidia+mpi

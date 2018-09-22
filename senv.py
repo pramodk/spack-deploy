@@ -6,6 +6,15 @@ import click
 import yaml
 
 
+# add support for include directive
+# see : http://code.activestate.com/recipes/577613-yaml-include-support/
+def yaml_include(loader, node):
+    with file(node.value) as inputfile:
+        return yaml.load(inputfile)
+
+yaml.add_constructor("!include", yaml_include)
+
+
 class ProductionEnvironment(object):
     def __init__(self, configuration, only=None):
         self.configuration = configuration
