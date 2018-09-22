@@ -1,4 +1,4 @@
-# Build common (build) dependency packages
+# Common (build) dependency packages
 
 # axis that defines software deployment strategy
 axis:
@@ -37,7 +37,9 @@ packages:
       - iozone@3_465
       - libtool@2.4.6
       - lmod@7.8
+      - m4@1.4.18
       - jdk@10.0.2_13
       - ninja@1.8.2
       - pkg-config@0.29.2
       - spark@2.3.0+hadoop
+      - util-macros

@@ -1,0 +1,62 @@
+# Build all parallel libraries
+
+# axis that defines software deployment strategy
+axis:
+  - architecture
+  - compiler
+  - mpi
+  - lapack
+  - python
+
+# toolchain combinations
+combinations: !include configs/toolchains.yaml
+
+parallel-packages: &parallel-specs
+  specs:
+    - hdf5@1.10.2 +mpi
+    - petsc@3.9.3 +int64+mpi
+    - omega-h@9.17.2
+    - trilinos@12.12.1 +kokkos +teuchos
+
+# list of packages to build
+packages:
+  # with default gnu toolchain
+  gnu-stable-parallel:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    <<: *parallel-specs
+  # with default intel toolchain
+  intel-stable-parallel:
+    target_matrix:
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    <<: *parallel-specs
+  # with default pgi toolchain
+  pgi-stable-parallel:
+    target_matrix:
+      - pgi-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    <<: *parallel-specs
+    blacklist:
+      - omega-h@9.17.2
+      - petsc@3.9.3 +int64+mpi
+      - trilinos@12.12.1 +kokkos +teuchos
+  # with default llvm toolchain
+  llvm-stable-parallel:
+    target_matrix:
+      - llvm-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    <<: *parallel-specs
