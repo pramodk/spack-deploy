@@ -83,6 +83,8 @@ class ProductionEnvironment(object):
         targets = []
         for target_name in value['target_matrix']:
             targets.extend(self.combinations[target_name])
+        # Blacklist
+        blacklist = value['blacklist'] if 'blacklist' in value.keys() else []
         # Filter
         for key, allowed in value.get('target_filter', {}).items():
             targets = [x for x in targets if x[key] in allowed]
@@ -102,6 +104,8 @@ class ProductionEnvironment(object):
             compiler = item.pop('compiler')
             architecture = item.pop('architecture')
             for base_spec in specs:
+                if base_spec in blacklist:
+                    continue
                 parts = [base_spec]
                 parts.extend([v for v in item.values()])
                 spec = ' ^'.join(parts)

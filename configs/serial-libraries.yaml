@@ -12,12 +12,17 @@ combinations: !include configs/toolchains.yaml
 serial-packages: &serial-specs
   specs:
     - boost@1.68.0 ~mpi~python
-    - libxml2@2.9.8
-    - zlib@1.2.11
-    - qt@5.10.0
-    - hdf5@1.10.2 +hl~mpi
-    - parquet@1.4.0
+    - hdf5@1.10.2 ~mpi
     - highfive@1.6 ~mpi
+    - hpe-mpi@2.16
+    - intel-mpi@2018.1.163
+    - libxml2@2.9.8
+    - mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple
+    - parquet@1.4.0
+    - python@2.7.15
+    - python@3.6.5
+    - qt@5.10.0
+    - zlib@1.2.11
 
 # list of packages to build
 packages:
@@ -29,7 +34,6 @@ packages:
       - architecture
       - compiler
     <<: *serial-specs
-
   # with default intel toolchain
   intel-stable-serial:
     target_matrix:
@@ -38,3 +42,25 @@ packages:
       - architecture
       - compiler
     <<: *serial-specs
+  # with default pgi toolchain
+  pgi-stable-serial:
+    target_matrix:
+      - pgi-stable
+    requires:
+      - architecture
+      - compiler
+    <<: *serial-specs
+    blacklist:
+      - parquet@1.4.0
+      - qt@5.10.0
+  # with default llvm toolchain
+  llvm-stable-serial:
+    target_matrix:
+      - llvm-stable
+    requires:
+      - architecture
+      - compiler
+    <<: *serial-specs
+    blacklist:
+      - parquet@1.4.0
+      - qt@5.10.0

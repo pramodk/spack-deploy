@@ -1,4 +1,4 @@
-# Here we build common (build) dependency packages
+# Build common (build) dependency packages
 
 # axis that defines software deployment strategy
 axis:

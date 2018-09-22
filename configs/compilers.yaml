@@ -1,3 +1,5 @@
+# Build all compilers packages
+
 # axis that defines software deployment strategy
 axis:
   - architecture
@@ -6,10 +8,8 @@ axis:
   - lapack
   - python
 
-
 # toolchain combinations
 combinations: !include configs/toolchains.yaml
-
 
 # list of packages to build
 packages:
