@@ -1,0 +1,40 @@
+# axis that defines software deployment strategy
+axis:
+  - architecture
+  - compiler
+  - mpi
+  - lapack
+  - python
+
+# toolchain combinations
+combinations: !include configs/toolchains.yaml
+
+serial-packages: &serial-specs
+  specs:
+    - boost@1.68.0 ~mpi~python
+    - libxml2@2.9.8
+    - zlib@1.2.11
+    - qt@5.10.0
+    - hdf5@1.10.2 +hl~mpi
+    - parquet@1.4.0
+    - highfive@1.6 ~mpi
+
+# list of packages to build
+packages:
+  # with default gnu toolchain
+  gnu-stable-serial:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+    <<: *serial-specs
+
+  # with default intel toolchain
+  intel-stable-serial:
+    target_matrix:
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+    <<: *serial-specs

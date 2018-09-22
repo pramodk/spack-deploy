@@ -1,0 +1,71 @@
+# core toolchain typically represent system compilers
+core:
+  architecture:
+  - linux-rhel7-x86_64
+  compiler:
+  - gcc@4.8.5
+  mpi: None
+  lapack: None
+  python: None
+
+# stable gnu toolchain
+gnu-stable:
+  architecture:
+  - linux-rhel7-x86_64
+  - linux-rhel7-x86_64
+  compiler:
+  - gcc@6.4.0
+  - gcc@6.4.0
+  mpi:
+  - hpe-mpi@2.16
+  - mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple
+  lapack:
+  - openblas@0.2.20
+  - openblas@0.2.20 threads=openmp
+  python:
+  - python@3.6.5 +optimizations+tk~pythoncmd
+  - python@2.7.15 +optimizations+tk~pythoncmd
+
+# stable intel toolchain
+intel-stable:
+  architecture:
+  - linux-rhel7-x86_64
+  - linux-rhel7-x86_64
+  compiler:
+  - intel@18.0.1
+  - intel@18.0.1
+  mpi:
+  - hpe-mpi@2.16
+  - mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple
+  lapack:
+  - intel-mkl@2018.1.163
+  - intel-mkl@2018.1.163 threads=openmp
+  python:
+  - python@3.6.5 +optimizations+tk~pythoncmd
+  - python@2.7.15 +optimizations+tk~pythoncmd
+
+# stable PGI toolchain
+pgi-stable:
+  architecture:
+  - linux-rhel7-x86_64
+  compiler:
+  - pgi@18.4
+  mpi:
+  - hpe-mpi@2.16
+  lapack:
+  - openblas@0.2.20
+  python:
+  - python@2.7.15 +optimizations+tk~pythoncmd
+
+# stable LLVM toolchain
+llvm-stable:
+  architecture:
+  - linux-rhel7-x86_64
+  compiler:
+  - clang@6.0.1
+  mpi:
+  - hpe-mpi@2.16
+  lapack:
+  - openblas@0.2.20
+  python:
+  - python@2.7.15 +optimizations+tk~pythoncmd
