@@ -9,14 +9,14 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include configs/toolchains.yaml
+combinations: !include packages/compiler-toolchains.yaml
 
 parallel-packages: &parallel-specs
   specs:
-    - hdf5@1.10.2 +mpi
-    - petsc@3.9.3 +int64+mpi
+    - hdf5+mpi@1.10.2
     - omega-h@9.17.2
-    - trilinos@12.12.1 +kokkos +teuchos
+    - petsc+int64+mpi@3.9.3
+    - trilinos+kokkos+teuchos@12.12.1
 
 # list of packages to build
 packages:
@@ -42,8 +42,8 @@ packages:
     <<: *parallel-specs
     blacklist:
       - omega-h@9.17.2
-      - petsc@3.9.3 +int64+mpi
-      - trilinos@12.12.1 +kokkos +teuchos
+      - petsc+int64+mpi@3.9.3
+      - trilinos+kokkos+teuchos@12.12.1
   # with default llvm toolchain
   llvm-stable-parallel:
     target_matrix:

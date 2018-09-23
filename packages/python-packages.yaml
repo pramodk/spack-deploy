@@ -7,7 +7,7 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include configs/toolchains.yaml
+combinations: !include packages/compiler-toolchains.yaml
 
 serial-packages: &python-specs
   specs:
@@ -105,7 +105,11 @@ packages:
       - python
     specs:
     - py-numpy@1.15.1
-    - py-scipy@1.1.0
+    - py-scipy@1.1.0 ^py-numpy@1.15.1
+    - py-matplotlib@2.2.3 ^py-numpy@1.15.1
+    - py-scikit-learn@0.19.1 ^py-numpy@1.15.1 ^py-scipy@1.1.0
+    - py-theano@1.0.2 ^py-numpy@1.15.1 ^py-scipy@1.1.0
+    - py-pytorch@0.4.0 ^py-numpy@1.15.1
   stable-parallel:
     target_matrix:
       - gnu-stable

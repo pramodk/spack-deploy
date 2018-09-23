@@ -2,7 +2,7 @@
 
 # This script assumes that the following variables are set in the environment:
 #
-# SENV_VIRTUALENV_PATH: path where to find the virtualenv for "senv"
+# SPACKD_VIRTUALENV_PATH: path where to find the virtualenv for "spackd"
 # SPACK_CHECKOUT_DIR: path where Spack was cloned
 #
 
@@ -10,8 +10,8 @@
 rm -f stack.${SPACK_TARGET_TYPE}.xml
 
 # Produce a valid list of compilers
-. ${SENV_VIRTUALENV_PATH}/bin/activate
-senv stack ${SPACK_TARGET_TYPE} --output stack.${SPACK_TARGET_TYPE}.txt
+. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+spackd stack ${SPACK_TARGET_TYPE} --output stack.${SPACK_TARGET_TYPE}.txt
 cat stack.${SPACK_TARGET_TYPE}.txt
 deactivate
 
