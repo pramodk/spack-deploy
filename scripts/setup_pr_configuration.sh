@@ -43,9 +43,9 @@ EOF
 cd -
 
 # Create a virtual env for the command just checked out
-SENV_VIRTUALENV_PATH=$(mktemp -d /home/scitasbuild/paien/pr/senv.XXXXX)
-virtualenv -p $(which python) ${SENV_VIRTUALENV_PATH} --clear
-. ${SENV_VIRTUALENV_PATH}/bin/activate
+SPACKD_VIRTUALENV_PATH=$(mktemp -d /home/scitasbuild/paien/pr/spackd.XXXXX)
+virtualenv -p $(which python) ${SPACKD_VIRTUALENV_PATH} --clear
+. ${SPACKD_VIRTUALENV_PATH}/bin/activate
 pip install --force-reinstall -U .
 deactivate
 
@@ -58,19 +58,19 @@ deactivate
 . ${SPACK_PRODUCTION_DIR}/share/spack/setup-env.sh
 which spack
 
-. ${SENV_VIRTUALENV_PATH}/bin/activate
-senv --help
+. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+spackd --help
 # Generate the list of software that need to be installed, then fetch every tarball
 
 # For this part we currently need to work with the production instance of Spack,
 # as we need to query which software was already installed
-targets="$(senv targets)"
+targets="$(spackd targets)"
 original_arch="${SPACK_TARGET_TYPE}"
 
 for target in ${targets}
 do
     echo "[${target}] Computing list of packages to be tested"
-    senv packages ${target} --output="all_specs.${target}.txt"
+    spackd packages ${target} --output="all_specs.${target}.txt"
 
     # TODO: if concretization is slow this command could output also the yaml file
 

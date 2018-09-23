@@ -7,13 +7,13 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include configs/toolchains.yaml
+combinations: !include packages/compiler-toolchains.yaml
 
 serial-packages: &serial-specs
   specs:
-    - boost@1.68.0 ~mpi~python
-    - hdf5@1.10.2 ~mpi
-    - highfive@1.6 ~mpi
+    - boost~mpi~python@1.68.0
+    - hdf5~mpi@1.10.2
+    - highfive~mpi@1.6
     - hpe-mpi@2.16
     - intel-mpi@2018.1.163
     - intel-mkl@2018.1.163

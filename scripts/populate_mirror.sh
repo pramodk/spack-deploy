@@ -2,23 +2,23 @@
 
 # This script assumes that the following variables are set in the environment:
 #
-# SENV_VIRTUALENV_PATH: path where to setup the virtualenv for "senv"
+# SPACKD_VIRTUALENV_PATH: path where to setup the virtualenv for "spackd"
 # SPACK_CHECKOUT_DIR: path where Spack was cloned
 #
 
 SPACK_MIRROR_DIR=/ssoft/spack/mirror
 
-# Activate 'senv' and source Spack setup file
+# Activate 'spackd' and source Spack setup file
 . ${SPACK_CHECKOUT_DIR}/share/spack/setup-env.sh
 spack --version
 
-. ${SENV_VIRTUALENV_PATH}/bin/activate
+. ${SPACKD_VIRTUALENV_PATH}/bin/activate
 
 # Generate the list of software that need to be installed, then fetch every tarball
-for target in $(senv targets)
+for target in $(spackd targets)
 do
     echo "[${target}] Computing list of packages"
-    senv packages ${target} --output="all_specs.${target}.txt"
+    spackd packages ${target} --output="all_specs.${target}.txt"
 
     echo "[${target}] Selecting the ones still to be installed"
     # TODO: if concretization is slow this command could output also the yaml file

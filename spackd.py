@@ -125,14 +125,14 @@ class ProductionEnvironment(object):
     help='YAML file containing the specification for a production environment'
 )
 @click.pass_context
-def senv(ctx, input):
+def spackd(ctx, input):
     """This command helps with common tasks needed in the SCITAS-EPFL
     continuous integration pipeline"""
     ctx.input = input
     ctx.configuration = yaml.load(input)
 
 
-@senv.command()
+@spackd.command()
 @click.option(
     '--output', default='-', type=click.File('w'),
     help='Where to dump the list of targets'
@@ -149,7 +149,7 @@ def targets(ctx, output):
         output.write(target + '\n')
 
 
-@senv.command()
+@spackd.command()
 @click.argument('target')
 @click.option(
     '--output', default='-', type=click.File('w'),
@@ -178,7 +178,7 @@ def compilers(ctx, target, output):
         output.write(item + '\n')
 
 
-@senv.command()
+@spackd.command()
 @click.argument('target')
 @click.option(
     '--output', default='-', type=click.File('w'),
@@ -207,7 +207,7 @@ def stack(ctx, target, output):
         output.write(item + '\n')
 
 
-@senv.command()
+@spackd.command()
 @click.argument('target')
 @click.option(
     '--output', default='-', type=click.File('w'),
