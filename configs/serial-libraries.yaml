@@ -20,8 +20,8 @@ serial-packages: &serial-specs
     - libxml2@2.9.8
     - mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple
     - parquet@1.4.0
-    - python@2.7.15 +optimizations
-    - python@3.6.5 +optimizations
+    - python@2.7.15
+    - python@3.6.5
     - qt@5.10.0
     - zlib@1.2.11
 
@@ -35,15 +35,28 @@ packages:
       - architecture
       - compiler
     <<: *serial-specs
-  # with default intel toolchain
+  # with default intel toolchains
   intel-stable-serial:
     target_matrix:
       - intel-stable
+      - intel-knl-stable
     requires:
       - architecture
       - compiler
     <<: *serial-specs
     blacklist:
+      - qt@5.10.0
+  # with default pgi toolchain
+  pgi-stable-serial:
+    target_matrix:
+      - llvm-stable
+    requires:
+      - architecture
+      - compiler
+    <<: *serial-specs
+    blacklist:
+      - intel-mkl@2018.1.163
+      - parquet@1.4.0
       - qt@5.10.0
   # with default llvm toolchain
   llvm-stable-serial:
@@ -54,17 +67,5 @@ packages:
       - compiler
     <<: *serial-specs
     blacklist:
-      - parquet@1.4.0
-      - qt@5.10.0
-  # with default pgi toolchain
-  pgi-stable-serial:
-    target_matrix:
-      - pgi-stable
-    requires:
-      - architecture
-      - compiler
-    <<: *serial-specs
-    blacklist:
-      - intel-mkl@2018.1.163
       - parquet@1.4.0
       - qt@5.10.0

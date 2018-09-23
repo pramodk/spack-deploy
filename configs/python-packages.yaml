@@ -82,17 +82,22 @@ serial-packages: &python-specs
 
 # list of packages to build
 packages:
-  gnu-stable-serial:
+  # with default gnu, intel and intel-knl toolchain
+  stable-serial:
     target_matrix:
       - gnu-stable
+      - intel-stable
+      - intel-knl-stable
     requires:
       - architecture
       - compiler
       - python
     <<: *python-specs
-  gnu-stable-serial-lapack:
+  stable-serial-lapack:
     target_matrix:
       - gnu-stable
+      - intel-stable
+      - intel-knl-stable
     requires:
       - architecture
       - compiler
@@ -101,39 +106,11 @@ packages:
     specs:
     - py-numpy@1.15.1
     - py-scipy@1.1.0
-  gnu-stable-parallel:
+  stable-parallel:
     target_matrix:
       - gnu-stable
-    requires:
-      - architecture
-      - compiler
-      - python
-      - mpi
-    specs:
-    - py-mpi4py@3.0.0
-  # with default intel toolchain
-  intel-stable-serial:
-    target_matrix:
       - intel-stable
-    requires:
-      - architecture
-      - compiler
-      - python
-    <<: *python-specs
-  intel-stable-serial-lapack:
-    target_matrix:
-      - intel-stable
-    requires:
-      - architecture
-      - compiler
-      - lapack
-      - python
-    specs:
-    - py-numpy@1.15.1
-    - py-scipy@1.1.0
-  intel-stable-parallel:
-    target_matrix:
-      - intel-stable
+      - intel-knl-stable
     requires:
       - architecture
       - compiler

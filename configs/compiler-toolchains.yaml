@@ -44,6 +44,24 @@ intel-stable:
   - python@3.6.5
   - python@2.7.15
 
+# stable intel knl toolchain
+intel-knl-stable:
+  architecture:
+  - linux-rhel7-x86_64
+  - linux-rhel7-x86_64
+  compiler:
+  - intel@18.0.1-knl
+  - intel@18.0.1-knl
+  mpi:
+  - hpe-mpi@2.16
+  - hpe-mpi@2.16
+  lapack:
+  - intel-mkl@2018.1.163 threads=none
+  - intel-mkl@2018.1.163 threads=none
+  python:
+  - python@3.6.5
+  - python@2.7.15
+
 # stable PGI toolchain
 pgi-stable:
   architecture:
