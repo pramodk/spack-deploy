@@ -20,19 +20,12 @@ parallel-packages: &parallel-specs
 
 # list of packages to build
 packages:
-  # with default gnu toolchain
-  gnu-stable-parallel:
+  # with default gnu, intel toolchains
+  gnu-intel-stable-parallel:
     target_matrix:
       - gnu-stable
-    requires:
-      - architecture
-      - compiler
-      - mpi
-    <<: *parallel-specs
-  # with default intel toolchain
-  intel-stable-parallel:
-    target_matrix:
       - intel-stable
+      - intel-knl-stable
     requires:
       - architecture
       - compiler
