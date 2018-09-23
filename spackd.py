@@ -126,8 +126,8 @@ class ProductionEnvironment(object):
 )
 @click.pass_context
 def spackd(ctx, input):
-    """This command helps with common tasks needed in the SCITAS-EPFL
-    continuous integration pipeline"""
+    """This command helps with common tasks needed to deploy software stack
+    with Spack in continuous integration pipeline"""
     ctx.input = input
     ctx.configuration = yaml.load(input)
 
@@ -226,4 +226,4 @@ def packages(ctx, target, output, only):
     penv = ProductionEnvironment(ctx.parent.configuration, only=only)
 
     for item in filter(lambda x: x.architecture == target, penv.items()):
-        output.write(item.spec + ' %' + item.compiler + ' arch=' + item.architecture + '\n')
+        output.write(item.spec + ' %' + item.compiler + ' target=' + item.architecture + '\n')

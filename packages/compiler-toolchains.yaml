@@ -1,8 +1,10 @@
 # core toolchain typically represent system compilers
 core:
   architecture:
-  - linux-rhel7-x86_64
+  - x86_64
+  - x86_64_knl
   compiler:
+  - gcc@4.8.5
   - gcc@4.8.5
   mpi: None
   lapack: None
@@ -11,8 +13,8 @@ core:
 # stable gnu toolchain
 gnu-stable:
   architecture:
-  - linux-rhel7-x86_64
-  - linux-rhel7-x86_64
+  - x86_64
+  - x86_64
   compiler:
   - gcc@6.4.0
   - gcc@6.4.0
@@ -29,8 +31,8 @@ gnu-stable:
 # stable intel toolchain
 intel-stable:
   architecture:
-  - linux-rhel7-x86_64
-  - linux-rhel7-x86_64
+  - x86_64
+  - x86_64
   compiler:
   - intel@18.0.1
   - intel@18.0.1
@@ -47,11 +49,11 @@ intel-stable:
 # stable intel knl toolchain
 intel-knl-stable:
   architecture:
-  - linux-rhel7-x86_64
-  - linux-rhel7-x86_64
+  - x86_64_knl
+  - x86_64_knl
   compiler:
-  - intel@18.0.1-knl
-  - intel@18.0.1-knl
+  - intel@18.0.1
+  - intel@18.0.1
   mpi:
   - hpe-mpi@2.16
   - hpe-mpi@2.16
@@ -65,7 +67,7 @@ intel-knl-stable:
 # stable PGI toolchain
 pgi-stable:
   architecture:
-  - linux-rhel7-x86_64
+  - x86_64
   compiler:
   - pgi@18.4
   mpi:
@@ -78,7 +80,7 @@ pgi-stable:
 # stable LLVM toolchain
 llvm-stable:
   architecture:
-  - linux-rhel7-x86_64
+  - x86_64
   compiler:
   - clang@6.0.1
   mpi:
