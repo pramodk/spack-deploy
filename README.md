@@ -2,7 +2,7 @@
 
 This is work-in-progress instructions for deploying softwrae stack with Spack.
 
-####### CREDIT : Based on [spack-packagelist](https://github.com/epfl-scitas/spack-packagelist)
+###### CREDIT : Based on [spack-packagelist](https://github.com/epfl-scitas/spack-packagelist)
 
 #### Setup Environment
 
@@ -181,8 +181,8 @@ These specs can be the used to install packages using `spack install` command. T
 hdf5+mpi@1.10.2 ^hpe-mpi@2.16 %clang@6.0.1 target=x86_64
 omega-h@9.17.2 ^hpe-mpi@2.16 %clang@6.0.1 target=x86_64
 ...
-hdf5+mpi@1.10.2 ^hpe-mpi@2.16 %intel@18.0.1-knl target=x86_64
-omega-h@9.17.2 ^hpe-mpi@2.16 %intel@18.0.1-knl target=x86_64
+hdf5+mpi@1.10.2 ^hpe-mpi@2.16 %intel@18.0.1 target=x86_64
+omega-h@9.17.2 ^hpe-mpi@2.16 %intel@18.0.1 target=x86_64
 ...
 hdf5+mpi@1.10.2 ^hpe-mpi@2.16 %gcc@6.4.0 target=x86_64
 omega-h@9.17.2 ^hpe-mpi@2.16 %gcc@6.4.0 target=x86_64
@@ -190,12 +190,9 @@ omega-h@9.17.2 ^hpe-mpi@2.16 %gcc@6.4.0 target=x86_64
 hdf5+mpi@1.10.2 ^mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple %gcc@6.4.0 target=x86_64
 omega-h@9.17.2 ^mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple %gcc@6.4.0 target=x86_64
 ....
-hdf5+mpi@1.10.2 ^hpe-mpi@2.16 %intel@18.0.1 target=x86_64
-omega-h@9.17.2 ^hpe-mpi@2.16 %intel@18.0.1 target=x86_64
-....
 ```
 
-Similarly, spackages for `x86_64_knl` can be generated with :
+Similarly, packages for `x86_64_knl` target can be generated with :
 
 ```
  → spackd --input packages/parallel-libraries.yaml packages x86_64_knl
