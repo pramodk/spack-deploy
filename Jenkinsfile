@@ -1,7 +1,7 @@
 pipeline {
     agent none
 
-    // Adds timestamps to console logs
+    // adds timestamps to console logs
     options {
         timestamps()
     }
@@ -26,7 +26,7 @@ pipeline {
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
                 SPACK_SCITAS_REPOSITORY = "/ssoft/spack/paien/scitas-repository"
-                SENV_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/senv-py27"
+                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             steps {
@@ -99,7 +99,7 @@ pipeline {
 
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
-                SENV_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/senv-py27"
+                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             parallel {
@@ -201,7 +201,7 @@ pipeline {
 
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
-                SENV_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/senv-py27"
+                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             steps {
@@ -256,13 +256,13 @@ pipeline {
                     agent {
                         label 'x86_E5v2_IntelIB.rh74.slurm1711'
                     }
-                
+
                     steps {
                         unstash name: 'spack_dir'
                         unstash name: 'x86_E5v2_IntelIB'
                         sh 'scripts/test_pr_build.sh'
                     }
-                
+
                     post {
                         always {
                             archiveArtifacts artifacts:'*.txt, *.xml'
@@ -337,7 +337,7 @@ pipeline {
 
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
-                SENV_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/senv-py27"
+                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             parallel {
@@ -345,13 +345,13 @@ pipeline {
                     agent {
                         label 'x86_E5v2_IntelIB.rh74.slurm1711'
                     }
-                
+
                     steps {
                         unstash name: 'x86_E5v2_IntelIB'
                         sh 'scripts/deploy_in_production.sh'
                         echo 'Notify failures somewhere'
                     }
-                
+
                     post {
                         always {
                             archiveArtifacts artifacts:'*.txt, *.xml'
