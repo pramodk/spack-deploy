@@ -9,7 +9,7 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include packages/compiler-toolchains.yaml
+combinations: !include packages/compiler-toolchains.yaml.in
 
 parallel-packages: &parallel-specs
   specs:
