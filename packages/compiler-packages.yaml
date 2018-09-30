@@ -9,7 +9,16 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include packages/compiler-toolchains.yaml
+combinations:
+  # core toolchain typically represent system compilers
+  core:
+    architecture:
+    - x86_64
+    compiler:
+    - gcc@4.8.5
+    mpi: None
+    lapack: None
+    python: None
 
 # list of packages to build
 packages:
