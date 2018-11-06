@@ -7,7 +7,7 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include packages/compiler-toolchains.yaml.in
+combinations: !include packages/compiler-toolchains.yaml
 
 serial-packages: &python-specs
   specs:
