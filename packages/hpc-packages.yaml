@@ -11,6 +11,16 @@ axis:
 # toolchain combinations
 combinations: !include packages/toolchains.yaml
 
+parallel-packages: &parallel-specs
+  specs:
+    - functionalizer@3.11.0
+    - neurodamus@plasticity
+    - neurodamus@master
+    - neurodamus@hippocampus
+    - neuron@2018-10
+    - spykfunc@0.11.0
+    - touchdetector@4.3.3
+
 # list of packages to build
 packages:
   # with default gnu, intel toolchains + mpi
@@ -21,9 +31,7 @@ packages:
     requires:
       - architecture
       - compiler
-      - mpi
-    specs:
-      - hdf5+mpi@1.10.2
+    <<: *parallel-specs
 
   # with default gnu, intel toolchains + mpi + lapack
   gnu-intel-stable-parallel-lapack:
@@ -35,6 +43,4 @@ packages:
       - compiler
       - lapack
     specs:
-      - omega-h@9.17.2
-      - petsc+int64+mpi@3.9.3
-      - trilinos@12.12.1
+      - steps@3.3.0+petsc

@@ -7,36 +7,46 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include packages/compiler-toolchains.yaml
+combinations: !include packages/toolchains.yaml
 
 serial-packages: &python-specs
   specs:
   - py-argcomplete
   - py-argparse
+  - py-backports-functools-lru-cache
+  - py-bb5
   - py-beautifulsoup4
   - py-bokeh
   - py-click
+  - py-clustershell
   - py-coverage
   - py-cpuinfo
   - py-csvkit
   - py-cython
   - py-cpuinfo
   - py-dateutil
+  - py-deap
+  - py-docopt
+  - py-efel
   - py-elasticsearch
   - py-elephant
   - py-enum34
   - py-fastaindex
   - py-flake8
+  - py-funcsigs
   - py-future
   - py-gcovr
   - py-gnuplot
   - py-h5py
+  - py-hdfs
   - py-ipykernel
+  - py-ipyparallel
   - py-ipython
   - py-ipython-genutils
   - py-ipywidgets
   - py-ipython
   - py-jinja2
+  - py-jprops
   - py-jupyter-client
   - py-jupyter-console
   - py-jupyter-core
@@ -58,15 +68,23 @@ serial-packages: &python-specs
   - py-pillow
   - py-pip
   - py-ply
+  - py-progress
+  - py-py4j
+  - py-pyarrow
   - py-pynn
+  - py-pyspark
   - py-pytest
   - py-pyyaml
   - py-regex
+  - py-requests
+  - py-seaborn
   - py-setuptools
+  - py-sh
   - py-shapely
   - py-simplejson
   - py-six
   - py-slurm-pipeline
+  - py-sparkmanager
   - py-sphinx
   - py-sphinx-bootstrap-theme
   - py-sphinx-rtd-theme
@@ -86,8 +104,6 @@ packages:
   stable-serial:
     target_matrix:
       - gnu-stable
-      - intel-stable
-      - intel-knl-stable
     requires:
       - architecture
       - compiler
@@ -96,8 +112,6 @@ packages:
   stable-serial-lapack:
     target_matrix:
       - gnu-stable
-      - intel-stable
-      - intel-knl-stable
     requires:
       - architecture
       - compiler
@@ -113,8 +127,6 @@ packages:
   stable-parallel:
     target_matrix:
       - gnu-stable
-      - intel-stable
-      - intel-knl-stable
     requires:
       - architecture
       - compiler

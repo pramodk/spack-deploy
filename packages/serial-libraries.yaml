@@ -7,22 +7,24 @@ axis:
   - python
 
 # toolchain combinations
-combinations: !include packages/compiler-toolchains.yaml
+combinations: !include packages/toolchains.yaml
 
 serial-packages: &serial-specs
   specs:
-    - boost~mpi~python@1.68.0
+    - arrow@0.11.0
+    - boost~mpi@1.68.0
+    - cuda@9.2.88
     - hdf5~mpi@1.10.2
+    - hadoop@2.9.0
     - highfive~mpi@1.6
     - hpe-mpi@2.16
     - intel-mpi@2018.1.163
     - intel-mkl@2018.1.163
+    - jdk@1.8.0_191-b12
     - libxml2@2.9.8
-    - mvapich2@2.3 process_managers=slurm fabrics=mrail file_systems=gpfs threads=multiple
     - parquet@1.4.0
-    - python@2.7.15
-    - python@3.6.5
     - qt@5.10.0
+    - spark@2.3.2rc2
     - zlib@1.2.11
 
 # list of packages to build
@@ -35,37 +37,3 @@ packages:
       - architecture
       - compiler
     <<: *serial-specs
-  # with default intel toolchains
-  intel-stable-serial:
-    target_matrix:
-      - intel-stable
-      - intel-knl-stable
-    requires:
-      - architecture
-      - compiler
-    <<: *serial-specs
-    blacklist:
-      - qt@5.10.0
-  # with default pgi toolchain
-  pgi-stable-serial:
-    target_matrix:
-      - llvm-stable
-    requires:
-      - architecture
-      - compiler
-    <<: *serial-specs
-    blacklist:
-      - intel-mkl@2018.1.163
-      - parquet@1.4.0
-      - qt@5.10.0
-  # with default llvm toolchain
-  llvm-stable-serial:
-    target_matrix:
-      - llvm-stable
-    requires:
-      - architecture
-      - compiler
-    <<: *serial-specs
-    blacklist:
-      - parquet@1.4.0
-      - qt@5.10.0

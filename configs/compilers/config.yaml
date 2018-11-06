@@ -1,8 +1,0 @@
-config:
-  install_tree: $SOFTS_DIR_PATH/install
-  source_cache: $SOFTS_DIR_PATH/.cache
-  module_roots:
-    tcl: $SOFTS_DIR_PATH/modules/tcl
-    lmod: $SOFTS_DIR_PATH/modules/lmod
-  install_path_scheme: '${COMPILERNAME}-${COMPILERVER}/${PACKAGE}-${VERSION}-${HASH:6}'
-  build_jobs: 36
