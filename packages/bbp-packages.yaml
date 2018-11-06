@@ -1,4 +1,4 @@
-# Build all parallel libraries
+# Build packages from HPC team
 
 # axis that defines software deployment strategy
 axis:
@@ -24,7 +24,7 @@ parallel-packages: &parallel-specs
 # list of packages to build
 packages:
   # with default gnu, intel toolchains + mpi
-  gnu-intel-stable-parallel:
+  gnu-intel-parallel:
     target_matrix:
       - gnu-stable
       - intel-stable
@@ -34,7 +34,7 @@ packages:
     <<: *parallel-specs
 
   # with default gnu, intel toolchains + mpi + lapack
-  gnu-intel-stable-parallel-lapack:
+  gnu-intel-lapack-parallel:
     target_matrix:
       - gnu-stable
       - intel-stable
@@ -44,3 +44,18 @@ packages:
       - lapack
     specs:
       - steps@3.3.0+petsc
+
+  # packages from nse tream
+  gnu-intel-lapack-python-parallel:
+    target_matrix:
+      - gnu-stable
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - lapack
+      - python
+    specs:
+      - py-bluepymm@0.6.35
+      - py-bluepyopt@1.6.56
+      - py-efel@3.0.22

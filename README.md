@@ -179,7 +179,7 @@ spackd --input packages/system-tools.yaml packages x86_64 --output system-tools.
 spackd --input packages/serial-libraries.yaml packages x86_64 --output serial-libraries.txt
 spackd --input packages/python-packages.yaml packages x86_64 --output python-packages.txt
 spackd --input packages/parallel-libraries.yaml packages x86_64 --output parallel-libraries.txt
-spackd --input packages/hpc-packages.yaml packages x86_64 --output hpc-packages.txt
+spackd --input packages/bbp-packages.yaml packages x86_64 --output bbp-packages.txt
 ```
 
 #### Todo : Deployment Workflow
