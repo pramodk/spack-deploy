@@ -16,7 +16,7 @@ parallel-packages: &parallel-specs
     - hdf5+mpi@1.10.2
     - omega-h@9.17.2
     - petsc+int64+mpi@3.9.3
-    - trilinos+kokkos+teuchos@12.12.1
+    - trilinos+kokkos+teuchos~amesos~hypre~superlu-dist~mumps~metis~suite-sparse@12.12.1
 
 # list of packages to build
 packages:
