@@ -2,9 +2,7 @@
 core:
   architecture:
   - x86_64
-  - x86_64_knl
   compiler:
-  - gcc@4.8.5
   - gcc@4.8.5
   mpi: None
   lapack: None
