@@ -44,6 +44,7 @@ packages:
       - lapack
     specs:
       - steps@3.3.0+petsc
+      - zee@develop
 
   # packages from nse tream
   gnu-intel-lapack-python-parallel:
