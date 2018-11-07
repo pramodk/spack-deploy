@@ -39,6 +39,10 @@ packages:
         paths:
             gtkplus@2.24.31: /usr
         version: [2.24.31]
+    hpe-mpi:
+        paths:
+            hpe-mpi@2.16: /opt/hpe/hpc/mpt/mpt-2.16
+        version: [2.16]
     libjpeg:
         paths:
             libjpeg@1.2.90: /usr
