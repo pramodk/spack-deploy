@@ -13,7 +13,6 @@ serial-packages: &python-specs
   specs:
   - py-argcomplete
   - py-argparse
-  - py-backports-functools-lru-cache
   - py-bb5
   - py-beautifulsoup4
   - py-bokeh
@@ -64,7 +63,6 @@ serial-packages: &python-specs
   - py-numba
   - py-pandas
   - py-perf
-  - py-pil
   - py-pillow
   - py-pip
   - py-ply

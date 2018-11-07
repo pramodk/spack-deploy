@@ -15,8 +15,8 @@ parallel-packages: &parallel-specs
   specs:
     - functionalizer@3.11.0
     - neurodamus@plasticity
-    - neurodamus@master
-    - neurodamus@hippocampus
+    - neurodamus@master~coreneuron
+    - neurodamus@hippocampus~coreneuron
     - neuron@2018-10
     - spykfunc@0.11.0
     - touchdetector@4.3.3
