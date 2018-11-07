@@ -1,6 +1,6 @@
 ### SpackD : Deploying Software Stack with Spack
 
-This is work-in-progress instructions for deploying softwrae stack with Spack.
+This is work-in-progress instructions for deploying software stack with Spack.
 
 ###### CREDIT : Based on [spack-packagelist](https://github.com/epfl-scitas/spack-packagelist)
 
@@ -190,7 +190,7 @@ Here is how deployment workflow should look like :
 
 #### Todo : Jenkins Pipeline Workflow
 
-See exisiting scripts in `scripts/` directory and `Jenkinsfile`. Those should be refactored for new workflow.
+See existing scripts in `scripts/` directory and `Jenkinsfile`. Those should be refactored for new workflow.
 
 #### Other Commands
 
