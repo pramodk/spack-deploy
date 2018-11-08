@@ -94,7 +94,7 @@ serial-packages: &python-specs
   - py-virtualenvwrapper
   - py-wheel
   - py-yapf
-  - py-zmq
+  #- py-zmq
 
 # list of packages to build
 packages:

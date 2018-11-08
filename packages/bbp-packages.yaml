@@ -20,6 +20,7 @@ parallel-packages: &parallel-specs
     - neuron@2018-10
     - spykfunc@0.11.0
     - touchdetector@4.3.3
+    - parquet-converters@0.1
 
 # list of packages to build
 packages:

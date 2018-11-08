@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 ############################## SPACK REPOSITORY #############################
 export WORKSPACE=`pwd`
@@ -12,8 +11,11 @@ Preparing environment...
 export PATH=`pwd`:$PATH
 export WORKSPACE=`pwd`/workspace
 export SOFTS_DIR_PATH=$WORKSPACE/deployment
-export SPACK_MIRROR_DIR=$WORKSPACE/mirror
 mkdir -p $WORKSPACE/HOME_DIR $SOFTS_DIR_PATH $SPACK_MIRROR_DIR
+
+# TODO : Change this
+#export SPACK_MIRROR_DIR=$WORKSPACE/mirror
+export SPACK_MIRROR_DIR=/gpfs/bbp.cscs.ch/apps/hpc/test/central-mirror
 
 # new $HOME to avoid conflict with ~/.spack
 export HOME=$WORKSPACE/HOME_DIR
