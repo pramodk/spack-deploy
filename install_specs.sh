@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set +e
 source "setup_env.sh"
 
 install_specs() {
@@ -25,6 +25,9 @@ install_specs() {
 
 # use mirror with spack
 spack mirror add --scope=site central_mirror ${SPACK_MIRROR_DIR} || echo "Scope already added!"
+
+# unset mpi variables
+unset `env | awk -F= '/^\w/ {print $1}' | egrep '(PMI|SLURM_)' | xargs`
 
 cd $WORKSPACE/HOME_DIR/spack-deploy
 for category in "${package_categories[@]}"
