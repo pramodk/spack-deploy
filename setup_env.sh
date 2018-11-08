@@ -17,12 +17,12 @@ mkdir -p $WORKSPACE/HOME_DIR $SOFTS_DIR_PATH $SPACK_MIRROR_DIR
 
 # new $HOME to avoid conflict with ~/.spack
 export HOME=$WORKSPACE/HOME_DIR
-rm -rf $HOME/.spack
+#rm -rf $HOME/.spack
 cd $HOME
 
 # clone both spack related repos
 if [ ! -d spack ]; then
-    git clone https://github.com/BlueBrain/spack.git
+    git clone https://github.com/BlueBrain/spack.git -b fix/python-packages
     git clone https://github.com/pramodk/spack-deploy.git -b base-packages
 fi
 

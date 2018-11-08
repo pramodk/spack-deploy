@@ -1,5 +1,5 @@
 #!/bin/bash
-set +e
+set -e
 source "setup_env.sh"
 
 install_specs() {
@@ -14,6 +14,12 @@ install_specs() {
         echo "Installing packages "
         spack spec -Il ${to_be_installed}
         spack install --log-format=junit --log-file=${category}.xml ${to_be_installed}
+        #spack filter --not-installed $(cat $package_list) > todo.txt
+        #while read -r package
+        #do
+        #    spack spec -Il ${package}
+        #    spack install --log-format=junit --log-file=${category}.xml ${package}
+        #done < todo.txt
     fi
 }
 

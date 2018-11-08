@@ -107,10 +107,10 @@ packages:
         paths:
             tar@1.26: /usr
         version: [1.26]
-    tcl:
-        paths:
-            tcl@8.5.13: /usr
-        version: [8.5.13]
+    #tcl:
+    #    paths:
+    #        tcl@8.5.13: /usr
+    #    version: [8.5.13]
     tk:
         paths:
             tk@8.5.13: /usr

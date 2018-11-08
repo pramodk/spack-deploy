@@ -60,7 +60,7 @@ serial-packages: &python-specs
   - py-neo
   - py-networkx
   - py-nose
-  - py-numba
+  #- py-numba
   - py-pandas
   - py-perf
   - py-pillow
@@ -119,9 +119,9 @@ packages:
     - py-numpy@1.15.1
     - py-scipy@1.1.0 ^py-numpy@1.15.1
     - py-matplotlib@2.2.3 ^py-numpy@1.15.1
-    - py-scikit-learn@0.19.1 ^py-numpy@1.15.1 ^py-scipy@1.1.0
-    - py-theano@1.0.2 ^py-numpy@1.15.1 ^py-scipy@1.1.0
-    - py-pytorch@0.4.0 ^py-numpy@1.15.1
+    #- py-scikit-learn@0.19.1 ^py-numpy@1.15.1 ^py-scipy@1.1.0
+    #- py-theano@1.0.2 ^py-numpy@1.15.1 ^py-scipy@1.1.0
+    #- py-pytorch@0.4.0 ^py-numpy@1.15.1
   stable-parallel:
     target_matrix:
       - gnu-stable
