@@ -22,7 +22,6 @@ serial-packages: &serial-specs
     - intel-mkl@2018.1.163
     - jdk@1.8.0_191-b12
     - libxml2@2.9.8
-    - parquet@1.4.0
     - qt@5.10.0
     - spark@2.3.2rc2
     - zlib@1.2.11
@@ -37,3 +36,12 @@ packages:
       - architecture
       - compiler
     <<: *serial-specs
+  gnu-stable-serial-python:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - python
+    specs:
+      - parquet@1.4.0
