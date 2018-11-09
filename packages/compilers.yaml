@@ -1,4 +1,4 @@
-# Build all compilers packages
+# Compiler Specs
 
 # axis that defines software deployment strategy
 axis:
@@ -20,7 +20,7 @@ combinations:
     lapack: None
     python: None
 
-# list of packages to build
+# list of compilers to build
 packages:
   compilers:
     target_matrix:

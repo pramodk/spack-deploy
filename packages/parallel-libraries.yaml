@@ -1,6 +1,5 @@
-# Build all parallel libraries
+# Packages and libraries require MPI
 
-# axis that defines software deployment strategy
 axis:
   - architecture
   - compiler
@@ -8,12 +7,50 @@ axis:
   - lapack
   - python
 
-# toolchain combinations
 combinations: !include packages/toolchains.yaml
 
-# list of packages to build
 packages:
-  # with default gnu, intel toolchains + mpi
+
+  gnu-stable-parallel:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    specs:
+      - hdf5+mpi@1.10.2
+      - highfive@1.6
+      - hypre@2.15.1
+      - matio@1.5.9
+      - netcdf@4.6.1
+      - omega-h@9.22.1
+      - parmetis@4.0.3
+
+  gnu-stable-parallel-lapack:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+      - lapack
+    specs:
+      - superlu-dist@6.0.0
+      - trilinos@xsdk-0.4.0-rc1
+
+  gnu-stable-parallel-lapack-python:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - lapack
+      - mpi
+      - python
+    specs:
+      - petsc+int64+mpi@3.9.3
+
   gnu-intel-stable-parallel:
     target_matrix:
       - gnu-stable
@@ -23,18 +60,4 @@ packages:
       - compiler
       - mpi
     specs:
-      - hdf5+mpi@1.10.2
-
-  # with default gnu, intel toolchains + mpi + lapack
-  gnu-intel-stable-parallel-lapack:
-    target_matrix:
-      - gnu-stable
-      - intel-stable
-    requires:
-      - architecture
-      - compiler
-      - lapack
-    specs:
-      - omega-h@9.22.1
-      - petsc+int64+mpi@3.9.3
-      - trilinos@12.12.1
+      - neuron@2018-10

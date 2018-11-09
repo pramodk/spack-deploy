@@ -1,4 +1,5 @@
-# axis that defines software deployment strategy
+# Serial libraries and packages
+
 axis:
   - architecture
   - compiler
@@ -6,42 +7,52 @@ axis:
   - lapack
   - python
 
-# toolchain combinations
 combinations: !include packages/toolchains.yaml
 
-serial-packages: &serial-specs
-  specs:
-    - arrow@0.11.0
-    - boost~mpi@1.68.0
-    - cuda@9.2.88
-    - hdf5~mpi@1.10.2
-    - hadoop@2.9.0
-    - highfive~mpi@1.6
-    - hpe-mpi@2.16
-    - intel-mpi@2018.1.163
-    - intel-mkl@2018.1.163
-    - jdk@1.8.0_191-b12
-    - libxml2@2.9.8
-    - qt@5.10.0
-    - spark@2.3.2rc2
-    - zlib@1.2.11
-
-# list of packages to build
 packages:
-  # with default gnu toolchain
+
   gnu-stable-serial:
     target_matrix:
       - gnu-stable
     requires:
       - architecture
       - compiler
-    <<: *serial-specs
-  gnu-stable-serial-python:
+    specs:
+      - arrow@0.11.0
+      - boost~mpi@1.68.0
+      - bzip2@1.0.6
+      - cuda@9.2.88
+      - gmsh+oce~mpi@3.0.6
+      - hdf5~mpi@1.10.2
+      - hadoop@2.9.0
+      - highfive~mpi@1.6
+      - hpe-mpi@2.16
+      - intel-mpi@2018.1.163
+      - intel-mkl@2018.1.163
+      - jdk@1.8.0_191-b12
+      - libjpeg@1.2.90
+      - libjpeg@1.2.90
+      - libxml2@2.9.8
+      - libxslt@1.1.29
+      - metis@5.1.0
+      - ncurses@5.9
+      - neuron~mpi@2018-10
+      - openblas@0.2.20
+      - python@3.6.5
+      - qhull@2015.2
+      - qt@5.10.0
+      - readline@7.0
+      - spark@2.3.2rc2
+      - sqlite@3.23.1
+      - symengine@0.3.0
+      - zeromq@4.2.5
+      - zlib@1.2.11
+
+  intel-stable-serial:
     target_matrix:
-      - gnu-stable
+      - intel-stable
     requires:
       - architecture
       - compiler
-      - python
     specs:
-      - parquet@1.4.0
+      - neuron~mpi@2018-10

@@ -1,6 +1,5 @@
-# Build packages from HPC team
+# Package configurations for BBP Software Stack
 
-# axis that defines software deployment strategy
 axis:
   - architecture
   - compiler
@@ -8,56 +7,83 @@ axis:
   - lapack
   - python
 
-# toolchain combinations
 combinations: !include packages/toolchains.yaml
 
-parallel-packages: &parallel-specs
-  specs:
-    - functionalizer@3.11.0
-    - neurodamus@plasticity
-    - neurodamus@master~coreneuron
-    - neurodamus@hippocampus~coreneuron
-    - neuron@2018-10
-    - spykfunc@0.11.0
-    - touchdetector@4.3.3
-    - parquet-converters@0.1
-
-# list of packages to build
 packages:
-  # with default gnu, intel toolchains + mpi
-  gnu-intel-parallel:
+
+  #### circuit building ####
+
+  gnu-stable-serial:
     target_matrix:
       - gnu-stable
-      - intel-stable
     requires:
       - architecture
       - compiler
-    <<: *parallel-specs
+    specs:
+      - spykfunc@0.11.0
 
-  # with default gnu, intel toolchains + mpi + lapack
-  gnu-intel-lapack-parallel:
+  gnu-stable-parallel:
     target_matrix:
       - gnu-stable
-      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    specs:
+      - functionalizer@3.11.0
+      - touchdetector@4.3.3
+      - parquet-converters@0.1
+
+  #### sub-cellular ####
+
+  gnu-stable-lapack-python-parallel:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - lapack
+      - mpi
+      - python
+    specs:
+      - steps@3.3.0+petsc
+
+  gnu-stable-lapack-parallel:
+    target_matrix:
+      - gnu-stable
     requires:
       - architecture
       - compiler
       - lapack
     specs:
-      - steps@3.3.0+petsc
       - zee@develop
 
-  # packages from nse tream
-  gnu-intel-lapack-python-parallel:
+  gnu-stable-lapack-python-parallel:
     target_matrix:
       - gnu-stable
-      - intel-stable
     requires:
       - architecture
       - compiler
       - lapack
       - python
     specs:
-      - py-bluepymm@0.6.35
-      - py-bluepyopt@1.6.56
+      - py-bluepymm@0.6.35 ^neuron~mpi
+      - py-bluepyopt@1.6.56 ^neuron~mpi
       - py-efel@3.0.22
+
+  #### cellular ####
+
+  gnu-intel-stable-parallel:
+    target_matrix:
+      - gnu-stable
+      - intel-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    specs:
+      - neurodamus@plasticity
+      - neurodamus@master~coreneuron
+      - neurodamus@hippocampus~coreneuron
+      - neuron@2018-10
+      - synapsetool@0.3.2

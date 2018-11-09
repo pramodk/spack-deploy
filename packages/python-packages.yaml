@@ -1,4 +1,5 @@
-# axis that defines software deployment strategy
+# Python packages
+
 axis:
   - architecture
   - compiler
@@ -6,108 +7,114 @@ axis:
   - lapack
   - python
 
-# toolchain combinations
 combinations: !include packages/toolchains.yaml
 
-serial-packages: &python-specs
-  specs:
-  - py-argcomplete
-  - py-argparse
-  - py-bb5
-  - py-beautifulsoup4
-  - py-bokeh
-  - py-click
-  - py-clustershell
-  - py-coverage
-  - py-cpuinfo
-  - py-csvkit
-  - py-cython
-  - py-cpuinfo
-  - py-dateutil
-  - py-deap
-  - py-docopt
-  - py-efel
-  - py-elasticsearch
-  - py-elephant
-  - py-enum34
-  - py-fastaindex
-  - py-flake8
-  - py-funcsigs
-  - py-future
-  - py-gcovr
-  - py-gnuplot
-  - py-h5py
-  - py-hdfs
-  - py-ipykernel
-  - py-ipyparallel
-  - py-ipython
-  - py-ipython-genutils
-  - py-ipywidgets
-  - py-ipython
-  - py-jinja2
-  - py-jprops
-  - py-jupyter-client
-  - py-jupyter-console
-  - py-jupyter-core
-  - py-jupyter-notebook
-  - py-lazy-property
-  - py-line-profiler
-  - py-lxml
-  - py-markdown
-  - py-matplotlib
-  - py-memory-profiler
-  - py-multiprocess
-  - py-neo
-  - py-networkx
-  - py-nose
-  #- py-numba
-  - py-pandas
-  - py-perf
-  - py-pillow
-  - py-pip
-  - py-ply
-  - py-progress
-  - py-py4j
-  - py-pyarrow
-  - py-pynn
-  - py-pyspark
-  - py-pytest
-  - py-pyyaml
-  - py-regex
-  - py-requests
-  - py-seaborn
-  - py-setuptools
-  - py-sh
-  - py-shapely
-  - py-simplejson
-  - py-six
-  - py-slurm-pipeline
-  - py-sparkmanager
-  - py-sphinx
-  - py-sphinx-bootstrap-theme
-  - py-sphinx-rtd-theme
-  - py-symengine
-  - py-sympy
-  - py-toml
-  - py-virtualenv
-  - py-virtualenv-clone
-  - py-virtualenvwrapper
-  - py-wheel
-  - py-yapf
-  #- py-zmq
-
-# list of packages to build
 packages:
-  # with default gnu, intel and intel-knl toolchain
-  stable-serial:
+
+  gnu-stable-serial:
     target_matrix:
       - gnu-stable
     requires:
       - architecture
       - compiler
       - python
-    <<: *python-specs
-  stable-serial-lapack:
+    specs:
+      - py-appnope
+      - py-argcomplete
+      - py-argparse
+      - py-babel
+      - py-bb5
+      - py-beautifulsoup4
+      - py-bokeh
+      - py-cffi
+      - py-click
+      - py-clustershell
+      - py-coverage
+      - py-cpuinfo
+      - py-csvkit
+      - py-cycler
+      - py-cython
+      - py-cpuinfo
+      - py-dateutil
+      - py-deap
+      - py-decorator
+      - py-docopt
+      - py-efel
+      - py-elasticsearch
+      - py-elephant
+      - py-enum34
+      - py-fastaindex
+      - py-flake8
+      - py-funcsigs
+      - py-future
+      - py-futures
+      - py-gcovr
+      - py-gnuplot
+      - py-h5py
+      - py-hdfs
+      - py-ipykernel
+      - py-ipyparallel
+      - py-ipython
+      - py-ipython-genutils
+      - py-ipywidgets
+      - py-ipython
+      - py-jinja2
+      - py-jprops
+      - py-jupyter-client
+      - py-jupyter-console
+      - py-jupyter-core
+      - py-jupyter-notebook
+      - py-lazy-property
+      - py-line-profiler
+      - py-lxml
+      - py-markdown
+      - py-matplotlib
+      - py-memory-profiler
+      - py-mpmath
+      - py-multiprocess
+      - py-neo
+      - py-networkx
+      - py-nose
+      - py-pandas
+      - py-perf
+      - py-pillow
+      - py-pip
+      - py-ply
+      - py-progress
+      - py-py4j
+      - py-pyarrow
+      - py-pynn
+      - py-pyspark
+      - py-pytest
+      - py-pyyaml
+      - py-regex
+      - py-requests
+      - py-seaborn
+      - py-setuptools
+      - py-setuptools-scm
+      - py-sh
+      - py-shapely
+      - py-simplejson
+      - py-six
+      - py-slurm-pipeline
+      - py-sparkmanager
+      - py-sphinx
+      - py-sphinx-bootstrap-theme
+      - py-sphinx-rtd-theme
+      - py-sqlalchemy
+      - py-symengine
+      - py-sympy
+      - py-toml
+      - py-tornado
+      - py-urllib3
+      - py-virtualenv
+      - py-virtualenv-clone
+      - py-virtualenvwrapper
+      - py-wheel
+      - py-yapf
+      - py-zmq
+
+  gnu-stable-serial-lapack:
     target_matrix:
       - gnu-stable
     requires:
@@ -116,13 +123,14 @@ packages:
       - lapack
       - python
     specs:
-    - py-numpy@1.15.1
-    - py-scipy@1.1.0 ^py-numpy@1.15.1
-    - py-matplotlib@2.2.3 ^py-numpy@1.15.1
-    #- py-scikit-learn@0.19.1 ^py-numpy@1.15.1 ^py-scipy@1.1.0
-    #- py-theano@1.0.2 ^py-numpy@1.15.1 ^py-scipy@1.1.0
-    #- py-pytorch@0.4.0 ^py-numpy@1.15.1
-  stable-parallel:
+    - py-numpy@1.15.2
+    - py-scipy@1.1.0 ^py-numpy@1.15.2
+    - py-matplotlib@3.0.0 ^py-numpy@1.15.2
+    - py-scikit-learn@0.20.0 ^py-numpy@1.15.2 ^py-scipy@1.1.0
+    - py-theano@1.0.2 ^py-numpy@1.15.2 ^py-scipy@1.1.0
+    - py-pytorch@0.4.0 ^py-numpy@1.15.1
+
+  gnu-stable-parallel-python:
     target_matrix:
       - gnu-stable
     requires:
@@ -131,4 +139,4 @@ packages:
       - mpi
       - python
     specs:
-    - py-mpi4py@3.0.0
+      - py-mpi4py@3.0.0
