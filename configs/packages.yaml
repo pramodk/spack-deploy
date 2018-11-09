@@ -123,5 +123,6 @@ packages:
         version: [5.2]
     all:
         providers:
+            compiler: [gcc@6.4.0, intel@18.0.1]
             mpi: [hpe-mpi, intel-mpi]
             scalapack: [intel-mkl, netlib-scalapack]
