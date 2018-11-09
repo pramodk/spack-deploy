@@ -16,6 +16,8 @@ create_mirror() {
     fi
 }
 
+# register mirror with spack
+spack mirror add --scope=site central_mirror ${SPACK_MIRROR_DIR} || echo "Mirror in scope already added!"
 
 cd $WORKSPACE/HOME_DIR/spack-deploy
 for category in "${package_categories[@]}"
@@ -29,8 +31,5 @@ do
     echo "Creating mirror for packages in category $category"
     create_mirror $package_list
 done
-
-# register mirror with spack
-spack mirror add --scope=site central_mirror ${SPACK_MIRROR_DIR} || echo "Scope already added!"
 
 echo -e "Mirror creation finished"

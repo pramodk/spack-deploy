@@ -24,7 +24,7 @@ install_specs() {
 }
 
 # use mirror with spack
-spack mirror add --scope=site central_mirror ${SPACK_MIRROR_DIR} || echo "Scope already added!"
+spack mirror add --scope=site central_mirror ${SPACK_MIRROR_DIR} || echo "Mirror in scope already added!"
 
 # unset mpi variables
 unset `env | awk -F= '/^\w/ {print $1}' | egrep '(PMI|SLURM_)' | xargs`

@@ -35,6 +35,6 @@ packages:
       - compiler
       - lapack
     specs:
-      - omega-h@9.17.2
+      - omega-h@9.22.1
       - petsc+int64+mpi@3.9.3
       - trilinos@12.12.1
