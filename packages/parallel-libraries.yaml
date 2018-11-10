@@ -21,7 +21,6 @@ packages:
     specs:
       - hdf5+mpi@1.10.2
       - highfive@1.6
-      - hypre@2.15.1
       - matio@1.5.9
       - netcdf@4.6.1
       - omega-h@9.22.1
