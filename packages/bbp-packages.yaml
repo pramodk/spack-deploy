@@ -19,6 +19,7 @@ packages:
     requires:
       - architecture
       - compiler
+      - python
     specs:
       - spykfunc@0.11.0
 
@@ -32,7 +33,17 @@ packages:
     specs:
       - functionalizer@3.11.0
       - touchdetector@4.3.3
-      - parquet-converters@0.1
+
+  gnu-stable-parallel-python:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+      - python
+    specs:
+      - parquet-converters@0.2
 
   #### sub-cellular ####
 
@@ -54,7 +65,9 @@ packages:
     requires:
       - architecture
       - compiler
+      - mpi
       - lapack
+      - python
     specs:
       - zee@develop
 
@@ -67,7 +80,7 @@ packages:
       - lapack
       - python
     specs:
-      - py-bluepymm@0.6.35 ^neuron~mpi
+      - py-bluepymm@0.6.38 ^neuron~mpi
       - py-bluepyopt@1.6.56 ^neuron~mpi
       - py-efel@3.0.22
 
