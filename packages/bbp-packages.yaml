@@ -71,7 +71,7 @@ packages:
     specs:
       - zee@develop
 
-  gnu-stable-lapack-python-parallel:
+  gnu-stable-lapack-python:
     target_matrix:
       - gnu-stable
     requires:
