@@ -2,6 +2,8 @@
 set +e
 source "setup_env.sh"
 
+timestamp=`date +"%a-%d-%m-%Y-%H-%M"`
+
 install_specs() {
     package_list=$1
     category=$2
@@ -13,7 +15,7 @@ install_specs() {
     else
         echo "Installing packages "
         spack spec -Il ${to_be_installed}
-        spack install --log-format=junit --log-file=${category}.xml ${to_be_installed}
+        spack install --log-format=junit --log-file=${category}.${timestamp}.xml ${to_be_installed}
         #spack filter --not-installed $(cat $package_list) > todo.txt
         #while read -r package
         #do

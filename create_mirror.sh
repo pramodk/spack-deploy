@@ -1,5 +1,5 @@
 #!/bin/bash
-set +e
+set -e
 source "setup_env.sh"
 
 
