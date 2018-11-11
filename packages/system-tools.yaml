@@ -56,4 +56,4 @@ packages:
       - gdb@8.2
       - ninja@1.8.2
       - py-lit@0.5.0
-      - py-setuptools@40.4.3
+      - py-setuptools@40.2.0

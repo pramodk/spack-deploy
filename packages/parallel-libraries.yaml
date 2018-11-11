@@ -35,7 +35,7 @@ packages:
       - mpi
       - lapack
     specs:
-      - superlu-dist@6.0.0
+      - superlu-dist@5.4.0
       - trilinos@xsdk-0.4.0-rc1
 
   gnu-stable-parallel-lapack-python:

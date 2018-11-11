@@ -19,7 +19,6 @@ packages:
       - compiler
       - python
     specs:
-      - py-appnope
       - py-argcomplete
       - py-argparse
       - py-babel
@@ -42,14 +41,12 @@ packages:
       - py-efel
       - py-elasticsearch
       - py-elephant
-      - py-enum34
       - py-fastaindex
       - py-flake8
       - py-funcsigs
       - py-future
       - py-futures
       - py-gcovr
-      - py-gnuplot
       - py-h5py
       - py-hdfs
       - py-ipykernel
@@ -123,10 +120,10 @@ packages:
       - lapack
       - python
     specs:
-    - py-numpy@1.15.2
-    - py-scipy@1.1.0 ^py-numpy@1.15.2
-    - py-matplotlib@3.0.0 ^py-numpy@1.15.2
-    - py-scikit-learn@0.20.0 ^py-numpy@1.15.2 ^py-scipy@1.1.0
+    - py-numpy@1.15.1
+    - py-scipy@1.1.0 ^py-numpy@1.15.1
+    - py-matplotlib@2.2.3 ^py-numpy@1.15.1
+    - py-scikit-learn@0.19.1 ^py-numpy@1.15.1 ^py-scipy@1.1.0
     - py-theano@1.0.2 ^py-numpy@1.15.2 ^py-scipy@1.1.0
     - py-pytorch@0.4.0 ^py-numpy@1.15.1
 
