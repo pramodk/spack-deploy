@@ -151,7 +151,7 @@ install_specs() {
     #     # return 1
     # fi
 
-    spack install --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
+    spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
     spack module tcl refresh --delete-tree -y
     spack export > "${HOME}/packages.yaml"
 
