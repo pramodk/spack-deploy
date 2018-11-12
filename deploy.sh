@@ -147,20 +147,21 @@ install_specs() {
 
     spec_list="$(filter_specs ${HOME}/specs.txt)"
     check_specs "${spec_list}"
-    # if [[ $? -ne 0 ]]; then
-    #     # return 1
-    # fi
+    if [[ $? -ne 0 ]]; then
+        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
 
-    spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
-    spack module tcl refresh --delete-tree -y
-    spack export > "${HOME}/packages.yaml"
+        spack module tcl refresh --delete-tree -y
+        spack export > "${HOME}/packages.yaml"
 
-    if [[ "${what}" == "compilers" ]]; then
-        log "adding compilers"
-        configure_compilers <<< "${spec_list}"
+        if [[ "${what}" == "compilers" ]]; then
+            log "adding compilers"
+            configure_compilers <<< "${spec_list}"
+        fi
+
+        cp "${HOME}/.spack/compilers.yaml" "${HOME}"
+    else
+        log "nothing to install"
     fi
-
-    cp "${HOME}/.spack/compilers.yaml" "${HOME}"
 }
 
 generate_specs "$@"
