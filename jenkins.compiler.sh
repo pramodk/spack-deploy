@@ -12,10 +12,10 @@ trap 'error ${?}' ERR
 
 ############################## CREATE VIRTUAL ENV #############################
 SPACK_DEPLOY_DIR=`pwd`
-SPACKD_VIRTUALENV_PATH=$SPACK_DEPLOY_DIR/spackd-env
+DEPLOYMENT_VIRTUALENV=$SPACK_DEPLOY_DIR/spackd-env
 rm -rf $SPACK_DEPLOY_DIR/spackd-env
-virtualenv -p $(which python) ${SPACKD_VIRTUALENV_PATH} --clear
-. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+virtualenv -p $(which python) ${DEPLOYMENT_VIRTUALENV} --clear
+. ${DEPLOYMENT_VIRTUALENV}/bin/activate
 pip install --force-reinstall -U .
 
 group="packages/compiler-packages.yaml"

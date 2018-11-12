@@ -2,7 +2,7 @@
 
 # This script assumes that the following variables are set in the environment:
 #
-# SPACKD_VIRTUALENV_PATH: path where to find the virtualenv for "spackd"
+# DEPLOYMENT_VIRTUALENV: path where to find the virtualenv for "spackd"
 # SPACK_CHECKOUT_DIR: path where Spack was cloned
 #
 
@@ -10,7 +10,7 @@
 rm -f compilers.${SPACK_TARGET_TYPE}.xml
 
 # Produce a valid list of compilers
-. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+. ${DEPLOYMENT_VIRTUALENV}/bin/activate
 spackd compilers ${SPACK_TARGET_TYPE} --output compilers.${SPACK_TARGET_TYPE}.txt
 cat compilers.${SPACK_TARGET_TYPE}.txt
 deactivate

@@ -2,7 +2,7 @@
 
 # This script assumes that the following variables are set in the environment:
 #
-# SPACKD_VIRTUALENV_PATH: path where to setup the virtualenv for "spackd"
+# DEPLOYMENT_VIRTUALENV: path where to setup the virtualenv for "spackd"
 # SPACK_CHECKOUT_DIR: path where Spack was cloned
 #
 

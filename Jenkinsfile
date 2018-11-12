@@ -26,7 +26,7 @@ pipeline {
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
                 SPACK_SCITAS_REPOSITORY = "/ssoft/spack/paien/scitas-repository"
-                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
+                DEPLOYMENT_VIRTUALENV = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             steps {
@@ -99,7 +99,7 @@ pipeline {
 
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
-                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
+                DEPLOYMENT_VIRTUALENV = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             parallel {
@@ -201,7 +201,7 @@ pipeline {
 
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
-                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
+                DEPLOYMENT_VIRTUALENV = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             steps {
@@ -337,7 +337,7 @@ pipeline {
 
             environment {
                 SPACK_CHECKOUT_DIR = "/ssoft/spack/paien/spack.v2"
-                SPACKD_VIRTUALENV_PATH = "/home/scitasbuild/paien/virtualenv/spackd-py27"
+                DEPLOYMENT_VIRTUALENV = "/home/scitasbuild/paien/virtualenv/spackd-py27"
             }
 
             parallel {

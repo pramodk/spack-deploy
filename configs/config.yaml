@@ -1,5 +1,5 @@
 config:
-  install_tree: $SOFTS_DIR_PATH/install
+  install_tree: $SOFTS_DIR_PATH
   source_cache: $SOFTS_DIR_PATH/.cache
   module_roots:
     tcl: $SOFTS_DIR_PATH/modules/tcl

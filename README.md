@@ -16,9 +16,9 @@ cd spack-deploy
 Setup virtual environment :
 
 ```
-SPACKD_VIRTUALENV_PATH=`pwd`/spackd-venv
-virtualenv -p $(which python) ${SPACKD_VIRTUALENV_PATH} --clear
-. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+DEPLOYMENT_VIRTUALENV=`pwd`/spackd-venv
+virtualenv -p $(which python) ${DEPLOYMENT_VIRTUALENV} --clear
+. ${DEPLOYMENT_VIRTUALENV}/bin/activate
 pip install --force-reinstall -U .
 ```
 
@@ -187,6 +187,14 @@ spackd --input packages/bbp-packages.yaml packages x86_64 --output bbp-packages.
 Here is how deployment workflow should look like :
 
 ![alt text](drawings/workflow.png "Deployment Workflow")
+
+To generate the specs to be installed:
+```
+$ export DEPLOYMENT_ROOT=${PWD}/test
+$ sh scripts/prod_configure.sh
+$ ls test/specs
+applications.txt  compilers.txt  libraries.txt  tools.txt
+```
 
 #### Todo : Jenkins Pipeline Workflow
 

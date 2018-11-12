@@ -43,9 +43,9 @@ EOF
 cd -
 
 # Create a virtual env for the command just checked out
-SPACKD_VIRTUALENV_PATH=$(mktemp -d /home/scitasbuild/paien/pr/spackd.XXXXX)
-virtualenv -p $(which python) ${SPACKD_VIRTUALENV_PATH} --clear
-. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+DEPLOYMENT_VIRTUALENV=$(mktemp -d /home/scitasbuild/paien/pr/spackd.XXXXX)
+virtualenv -p $(which python) ${DEPLOYMENT_VIRTUALENV} --clear
+. ${DEPLOYMENT_VIRTUALENV}/bin/activate
 pip install --force-reinstall -U .
 deactivate
 
@@ -58,7 +58,7 @@ deactivate
 . ${SPACK_PRODUCTION_DIR}/share/spack/setup-env.sh
 which spack
 
-. ${SPACKD_VIRTUALENV_PATH}/bin/activate
+. ${DEPLOYMENT_VIRTUALENV}/bin/activate
 spackd --help
 # Generate the list of software that need to be installed, then fetch every tarball
 
