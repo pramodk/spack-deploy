@@ -66,20 +66,11 @@ configure_compilers() {
 
 filter_specs() {
     package_list=$1
-    cat $package_list
-    # spack filter --not-installed $(<${package_list})
+    spack filter --not-installed $(<${package_list})
 }
 
 check_specs() {
-    to_be_installed="$@"
-    if [[ -z "${to_be_installed}" ]]; then
-        log "All specs already installed"
-        return 1
-    else
-        log "spack spec -Il ${to_be_installed}"
-        spack spec -Il ${to_be_installed}
-    fi
-    return 0
+    spack spec -Il "$@"
 }
 
 generate_specs() {
@@ -92,15 +83,17 @@ generate_specs() {
 
     venv="${DEPLOYMENT_ROOT}/deploy/venv"
 
+    log "updating the deployment virtualenv"
     # Recreate the virtualenv and update the command line
     mkdir -p ${venv}
-    virtualenv -p $(which python) ${venv} --clear
+    virtualenv -q -p $(which python) ${venv} --clear
     set +o nounset
     . ${venv}/bin/activate
     set -o nounset
     pip install -q --force-reinstall -U .
 
     for stage in ${what}; do
+        log "generating specs for ${what}"
         datadir="$(install_dir ${stage})/data"
 
         mkdir -p "${datadir}"
@@ -108,10 +101,34 @@ generate_specs() {
         git --rev-parse HEAD &> "${datadir}/spack_deploy.version"
 
         rm -f "${datadir}/specs.txt"
-        for stub in "${spec_definitions[$stage]}"; do
+        for stub in ${spec_definitions[$stage]}; do
+            log "...using ${stub}"
             spackd --input packages/${stub}.yaml packages x86_64 > "${datadir}/specs.txt"
         done
     done
+}
+
+copy_configuration() {
+    what="$1"
+
+    log "copying configuration"
+    log "...into ${HOME}"
+    rm -rf "${HOME}/.spack"
+    mkdir -p "${HOME}/.spack"
+    cp configs/*.yaml "${HOME}/.spack"
+
+    if [[ ${spec_parentage[${what}]+_} ]]; then
+        parent="${spec_parentage[$what]}"
+        pdir="$(last_install_dir ${parent})"
+        log "...using configuration output of ${parent}"
+        cp "${pdir}/data/packages.yaml" "${HOME}/.spack"
+        cp "${pdir}/data/compilers.yaml" "${HOME}/.spack"
+    fi
+
+    if [[ -d "configs/${what}" ]]; then
+        log "...using specialized configuration files: $(ls configs/${what})"
+        cp configs/${what}/*.yaml "${HOME}/.spack"
+    fi
 }
 
 install_specs() {
@@ -122,46 +139,36 @@ install_specs() {
     SOFTS_DIR_PATH="${location}"
     export HOME SOFTS_DIR_PATH
 
-    log "copying configuration into ${HOME}"
-    rm -rf "${HOME}/.spack"
-    mkdir -p "${HOME}/.spack"
-    cp configs/*.yaml "${HOME}/.spack"
-
-    if [[ ${spec_parentage[${what}]+_} ]]; then
-        parent="${spec_parentage[$what]}"
-        log "copying output of parent stage: ${parent}"
-        pdir="$(last_install_dir ${parent})"
-        cp "${pdir}/data/packages.yaml" "${HOME}/.spack"
-        cp "${pdir}/data/compilers.yaml" "${HOME}/.spack"
-    fi
-
-    if [[ -d "configs/${what}" ]]; then
-        log "copying specialized configuration"
-        cp configs/${what}/*.yaml "${HOME}/.spack"
-    fi
+    copy_configuration "${what}"
 
     log "sourcing spack environment"
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
     env &> "${HOME}/spack.env"
     (cd "${DEPLOYMENT_ROOT}/deploy/spack" && git rev-parse HEAD) &> "${HOME}/spack.version"
 
+    log "gathering specs"
     spec_list="$(filter_specs ${HOME}/specs.txt)"
-    check_specs "${spec_list}"
-    if [[ $? -ne 0 ]]; then
-        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
-
-        spack module tcl refresh --delete-tree -y
-        spack export > "${HOME}/packages.yaml"
-
-        if [[ "${what}" == "compilers" ]]; then
-            log "adding compilers"
-            configure_compilers <<< "${spec_list}"
-        fi
-
-        cp "${HOME}/.spack/compilers.yaml" "${HOME}"
+    if [[ -z "${spec_list}" ]]; then
+        log "...found no new packages"
+        return 1
     else
-        log "nothing to install"
+        log "found the following specs"
+        echo "${spec_list}"
+        log "...checking specs"
+        check_specs "${spec_list}"
+        log "...installing specs"
+        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
     fi
+
+    spack module tcl refresh --delete-tree -y
+    spack export --module tcl > "${HOME}/packages.yaml"
+
+    if [[ "${what}" == "compilers" && -n "${spec_list}" ]]; then
+        log "adding compilers"
+        configure_compilers <<< "${spec_list}"
+    fi
+
+    cp "${HOME}/.spack/compilers.yaml" "${HOME}"
 }
 
 generate_specs "$@"
