@@ -182,18 +182,70 @@ spackd --input packages/parallel-libraries.yaml packages x86_64 --output paralle
 spackd --input packages/bbp-packages.yaml packages x86_64 --output bbp-packages.txt
 ```
 
-#### Todo : Deployment Workflow
+## Deployment Workflow
 
 Here is how deployment workflow should look like :
 
 ![alt text](drawings/workflow.png "Deployment Workflow")
 
-To generate the specs to be installed:
+There are four stages:
+
+1. compilers: all necessary compilers
+2. tools: software involved in the building process
+3. libraries: software dependencies of our stack
+4. applications: packages maintained by Blue Brain
+
+During deployment, package specs required by Spack are generated with the
+Python package of this repository and subsequently build by Spack.
+
+### Configuration Layout
+
+#### Deployment configuration
+
+The definitions of software can be found in the `packages` directory:
+```
+packages
+├── bbp-packages.yaml
+├── compilers.yaml
+├── parallel-libraries.yaml
+├── python-packages.yaml
+├── serial-libraries.yaml
+├── system-tools.yaml
+└── toolchains.yaml
+```
+
+Files used for the stages:
+
+1. compilers: `compilers.yaml`
+2. tools: `system-tools.yaml`
+3. libraries: `parallel-libraries.yaml`,
+              `serial-libraries.yaml`,
+              `python-packages.yaml`
+4. applications: `bbp-packages.yaml`
+
+#### Spack configuration
+
+The basic Spack configuration should be in the folder `configs`:
+```
+configs
+├── compilers
+│   └── modules.yaml
+├── config.yaml
+├── modules.yaml
+└── packages.yaml
+```
+If a folder named after a deployment stage is present, the configuration
+files in said folder override the more generic ones within `configs`.
+
+All but the compilers stage also copy a `compilers.yaml` and
+`packages.yaml` from the previous stage.
+
+The deployment script can be found in the root of this repository as
+`deploy.sh`.
+To generate and install the specs to be installed for the libraries, use:
 ```
 $ export DEPLOYMENT_ROOT=${PWD}/test
-$ sh scripts/prod_configure.sh
-$ ls test/specs
-applications.txt  compilers.txt  libraries.txt  tools.txt
+$ ./deploy.sh libraries
 ```
 
 #### Todo : Jenkins Pipeline Workflow
