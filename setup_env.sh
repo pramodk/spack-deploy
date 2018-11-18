@@ -26,6 +26,7 @@ cd $HOME
 if [ ! -d spack ]; then
     git clone https://github.com/BlueBrain/spack.git -b fix/python-packages
     git clone https://github.com/pramodk/spack-deploy.git -b base-packages
+    git clone ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses spack/etc/spack/licenses
 fi
 
 export SPACK_ROOT=`pwd`/spack
@@ -33,8 +34,8 @@ export PATH=$SPACK_ROOT/bin:$PATH
 
 # copy config files
 mkdir -p $SPACK_ROOT/etc/spack/defaults/linux
-cp $SPACK_ROOT/sysconfig/bb5/users/* $SPACK_ROOT/etc/spack/defaults/linux/
 cp $WORKSPACE/HOME_DIR/spack-deploy/configs/packages.yaml $SPACK_ROOT/etc/spack/defaults/linux/
+cp $WORKSPACE/HOME_DIR/spack-deploy/configs/config.yaml $SPACK_ROOT/etc/spack/defaults/linux/
 
 source $SPACK_ROOT/share/spack/setup-env.sh
 
@@ -60,3 +61,6 @@ do
 done
 
 deactivate
+
+# use mirror with spack
+spack mirror add --scope=site central_mirror ${SPACK_MIRROR_DIR} || echo "Mirror in scope already added!"

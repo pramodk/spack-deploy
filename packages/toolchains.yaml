@@ -26,7 +26,7 @@ intel-stable:
   architecture:
   - x86_64
   compiler:
-  - intel@18.0.1
+  - intel@18.0.3
   mpi:
   - hpe-mpi@2.16
   lapack:
@@ -39,7 +39,7 @@ intel-knl-stable:
   architecture:
   - x86_64_knl
   compiler:
-  - intel@18.0.1
+  - intel@18.0.3
   mpi:
   - hpe-mpi@2.16
   lapack:
