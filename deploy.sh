@@ -7,10 +7,14 @@
 set -o nounset
 
 DEFAULT_DEPLOYMENT_DIR="/gpfs/bbp.cscs.ch/ssd/tmp_compile/deploy_test"
-DEFAULT_DEPLOYMENT_DATEDATE="$(date +%Y-%m-%d)"
+DEFAULT_DEPLOYMENT_DATE="$(date +%Y-%m-%d)"
 
+DEFAULT_DEPLOYMENT_DATA="/gpfs/bbp.cscs.ch/data/project/proj20/pramod_scratch/SPACK_DEPLOYMENT/download"
+
+DEPLOYMENT_DATA=${DEPLOYMENT_DATA:-${DEFAULT_DEPLOYMENT_DATA}}
 DEPLOYMENT_ROOT=${DEPLOYMENT_ROOT:-${DEFAULT_DEPLOYMENT_DIR}}
-export DEPLOYMENT_ROOT
+SPACK_MIRROR_DIR="${DEPLOYMENT_ROOT}/mirror"
+export DEPLOYMENT_ROOT SPACK_MIRROR_DIR
 
 declare -A spec_definitions=([compilers]=compilers
                              [tools]=system-tools
@@ -28,7 +32,7 @@ log() {
 install_dir() {
     what=$1
     date="${DEPLOYMENT_DATE:-${DEFAULT_DEPLOYMENT_DATE}}"
-    echo "${DEPLOYMENT_ROOT}/install/${what}/${DEPLOYMENT_DATE}"
+    echo "${DEPLOYMENT_ROOT}/install/${what}/${date}"
 }
 
 last_install_dir() {
@@ -37,8 +41,6 @@ last_install_dir() {
 }
 
 configure_compilers() {
-    GCC_DIR=`spack location --install-dir gcc@6.4.0`
-
     while read -r line; do
         set +o nounset
         spack load ${line}
@@ -48,6 +50,8 @@ configure_compilers() {
         fi
 
         if [[ ${line} = *"intel"* ]]; then
+            GCC_DIR=$(spack location --install-dir gcc@6.4.0)
+
             # update intel modules to use gcc@6.4.0 in .cfg files
             install_dir=$(spack location --install-dir ${line})
             for f in $(find ${install_dir} -name "icc.cfg" -o -name "icpc.cfg" -o -name "ifort.cfg"); do
@@ -62,6 +66,12 @@ configure_compilers() {
             #update pgi modules for network installation
             PGI_DIR=$(dirname $(which makelocalrc))
             makelocalrc ${PGI_DIR} -gcc ${GCC_DIR}/bin/gcc -gpp ${GCC_DIR}/bin/g++ -g77 ${GCC_DIR}/bin/gfortran -x -net
+
+            #configure pgi network license
+            template=$(find $PGI_DIR -name localrc* | tail -n 1)
+            for node in bbpv1 bbpv2 r2i3n0 r2i3n1 r2i3n2 r2i3n3 r2i3n4 r2i3n5 r2i3n6; do
+                cp $template $PGI_DIR/localrc.$node || true
+            done
         fi
         spack unload ${line}
     done
@@ -69,9 +79,30 @@ configure_compilers() {
     sed  -i 's#.*f\(77\|c\): null#      f\1: /usr/bin/gfortran#' ${HOME}/.spack/compilers.yaml
 }
 
+populate_mirror() {
+    what=$1
+    specfile="$(install_dir ${what})/data/specs.txt"
+
+    log "populating mirror for ${what}"
+
+    if [[ "${what}" = "compilers" ]]; then
+        for compiler in intel intel-parallel-studio pgi; do
+            mkdir -p ${SPACK_MIRROR_DIR}/${compiler}
+            cp ${DEPLOYMENT_DATA}/${compiler}/* ${SPACK_MIRROR_DIR}/${compiler}/
+        done
+    fi
+
+    while read -r package; do
+        spack mirror create -D -d ${SPACK_MIRROR_DIR} ${package}
+    done < "${specfile}"
+
+    spack mirror add --scope=user my_mirror ${SPACK_MIRROR_DIR} || log "mirror already added!"
+}
+
 filter_specs() {
     package_list=$1
-    spack filter --not-installed $(<${package_list})
+    cat ${package_list}
+    # spack filter --not-installed $(<${package_list})
 }
 
 check_specs() {
@@ -151,6 +182,8 @@ install_specs() {
     env &> "${HOME}/spack.env"
     (cd "${DEPLOYMENT_ROOT}/deploy/spack" && git rev-parse HEAD) &> "${HOME}/spack.version"
 
+    populate_mirror "${what}"
+
     log "gathering specs"
     spec_list="$(filter_specs ${HOME}/specs.txt)"
     if [[ -z "${spec_list}" ]]; then
@@ -166,7 +199,7 @@ install_specs() {
     fi
 
     spack module tcl refresh --delete-tree -y
-    spack export --module tcl > "${HOME}/packages.yaml"
+    spack export --scope=user --explicit --module tcl > "${HOME}/packages.yaml"
 
     if [[ "${what}" == "compilers" && -n "${spec_list}" ]]; then
         log "adding compilers"
@@ -201,7 +234,7 @@ done
 shift $((OPTIND - 1))
 
 if [[ "$@" = "all" ]]; then
-    set -- "${stages}"
+    set -- ${stages}
 else
     unknown=
     for what in "$@"; do
