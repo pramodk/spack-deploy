@@ -6,8 +6,11 @@
 
 set -o nounset
 
-DEFAULT_DEPLOMENT_DIR=/gpfs/bbp.cscs.ch/ssd/tmp_compile/deploy_test
-export DEPLOYMENT_ROOT=${DEPLOYMENT_ROOT:-${DEFAULT_DEPLOMENT_DIR}}
+DEFAULT_DEPLOYMENT_DIR="/gpfs/bbp.cscs.ch/ssd/tmp_compile/deploy_test"
+DEFAULT_DEPLOYMENT_DATEDATE="$(date +%Y-%m-%d)"
+
+DEPLOYMENT_ROOT=${DEPLOYMENT_ROOT:-${DEFAULT_DEPLOYMENT_DIR}}
+export DEPLOYMENT_ROOT
 
 declare -A spec_definitions=([compilers]=compilers
                              [tools]=system-tools
@@ -16,6 +19,7 @@ declare -A spec_definitions=([compilers]=compilers
 declare -A spec_parentage=([tools]=compilers
                            [libraries]=tools
                            [applications]=libraries)
+stages="compilers tools libraries applications"
 
 log() {
     echo "$(tput bold)### $@$(tput sgr0)" >&2
@@ -23,7 +27,8 @@ log() {
 
 install_dir() {
     what=$1
-    echo "${DEPLOYMENT_ROOT}/install/${what}/$(date +%Y-%m-%d)"
+    date="${DEPLOYMENT_DATE:-${DEFAULT_DEPLOYMENT_DATE}}"
+    echo "${DEPLOYMENT_ROOT}/install/${what}/${DEPLOYMENT_DATE}"
 }
 
 last_install_dir() {
@@ -93,7 +98,7 @@ generate_specs() {
     pip install -q --force-reinstall -U .
 
     for stage in ${what}; do
-        log "generating specs for ${what}"
+        log "generating specs for ${stage}"
         datadir="$(install_dir ${stage})/data"
 
         mkdir -p "${datadir}"
@@ -102,7 +107,7 @@ generate_specs() {
 
         rm -f "${datadir}/specs.txt"
         for stub in ${spec_definitions[$stage]}; do
-            log "...using ${stub}"
+            log "...using ${stub}.yaml"
             spackd --input packages/${stub}.yaml packages x86_64 > "${datadir}/specs.txt"
         done
     done
@@ -171,7 +176,54 @@ install_specs() {
     cp "${HOME}/.spack/compilers.yaml" "${HOME}"
 }
 
-generate_specs "$@"
+usage() {
+    echo "usage: $0 [-gi] stage...1>&2"
+    exit 1
+}
+
+do_generate=default
+do_install=default
+while getopts "gi" arg; do
+    case "${arg}" in
+        g)
+            do_generate=yes
+            [[ ${do_install} = "default" ]] && do_install=no
+            ;;
+        i)
+            do_install=yes
+            [[ ${do_generate} = "default" ]] && do_generate=no
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ "$@" = "all" ]]; then
+    set -- "${stages}"
+else
+    unknown=
+    for what in "$@"; do
+        if [[ ! ${spec_definitions[${what}]+_} ]]; then
+            unknown="${unknown} ${what}"
+        fi
+    done
+    if [[ -n "${unknown}" ]]; then
+        echo "unknown stage(s):${unknown}"
+        echo "allowed:          ${stages}"
+        exit 1
+    fi
+fi
+
+declare -A desired
 for what in "$@"; do
-    install_specs ${what}
+    desired[${what}]=Yes
+done
+
+[[ ${do_generate} != "no" ]] && generate_specs "$@"
+for what in ${stages}; do
+    if [[ ${desired[${what}]+_} && ${do_install} != "no" ]]; then
+        install_specs ${what}
+    fi
 done
