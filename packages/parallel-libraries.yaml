@@ -19,7 +19,7 @@ packages:
       - compiler
       - mpi
     specs:
-      - hdf5+mpi@1.10.2
+      - hdf5+mpi@1.10.3
       - highfive@1.6
       - matio@1.5.9
       - netcdf@4.6.1
@@ -48,7 +48,7 @@ packages:
       - mpi
       - python
     specs:
-      - petsc+int64+mpi@3.9.3
+      - petsc+int64+mpi@3.10.1
 
   gnu-intel-stable-parallel:
     target_matrix:

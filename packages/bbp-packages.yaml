@@ -86,7 +86,7 @@ packages:
 
   #### cellular ####
 
-  gnu-intel-stable-parallel:
+  gnu-intel-stable-python-parallel:
     target_matrix:
       - gnu-stable
       - intel-stable
@@ -94,6 +94,7 @@ packages:
       - architecture
       - compiler
       - mpi
+      - python
     specs:
       - neurodamus@plasticity
       - neurodamus@master~coreneuron
