@@ -226,4 +226,9 @@ def packages(ctx, target, output, only):
     penv = ProductionEnvironment(ctx.parent.configuration, only=only)
 
     for item in filter(lambda x: x.architecture == target, penv.items()):
-        output.write(item.spec + ' %' + item.compiler + ' target=' + item.architecture + '\n')
+        # compiler spec should come before all dependencies
+        if '^' in item.spec:
+            spec = item.spec.replace(' ^', ' %%%s ^' % item.compiler, 1)
+        else:
+            spec = item.spec + ' %' + item.compiler
+        output.write(spec + ' target=' + item.architecture + '\n')
