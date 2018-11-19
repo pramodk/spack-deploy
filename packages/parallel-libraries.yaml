@@ -1,6 +1,5 @@
-# Build all parallel libraries
+# Packages and libraries require MPI
 
-# axis that defines software deployment strategy
 axis:
   - architecture
   - compiler
@@ -8,48 +7,56 @@ axis:
   - lapack
   - python
 
-# toolchain combinations
-combinations: !include packages/compiler-toolchains.yaml.in
+combinations: !include packages/toolchains.yaml
 
-parallel-packages: &parallel-specs
-  specs:
-    - hdf5+mpi@1.10.2
-    - omega-h@9.17.2
-    - petsc+int64+mpi@3.9.3
-    - trilinos+kokkos+teuchos~amesos~hypre~superlu-dist~mumps~metis~suite-sparse@12.12.1
-
-# list of packages to build
 packages:
-  # with default gnu, intel toolchains
+
+  gnu-stable-parallel:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+    specs:
+      - hdf5+mpi@1.10.3
+      - highfive@1.6
+      - matio@1.5.9
+      - netcdf@4.6.1
+      - omega-h@9.22.1
+      - parmetis@4.0.3
+
+  gnu-stable-parallel-lapack:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - mpi
+      - lapack
+    specs:
+      - superlu-dist@5.4.0
+      - trilinos@xsdk-0.4.0-rc1
+
+  gnu-stable-parallel-lapack-python:
+    target_matrix:
+      - gnu-stable
+    requires:
+      - architecture
+      - compiler
+      - lapack
+      - mpi
+      - python
+    specs:
+      - petsc+int64+mpi@3.10.1
+
   gnu-intel-stable-parallel:
     target_matrix:
       - gnu-stable
       - intel-stable
-      - intel-knl-stable
     requires:
       - architecture
       - compiler
       - mpi
-    <<: *parallel-specs
-  # with default pgi toolchain
-  pgi-stable-parallel:
-    target_matrix:
-      - pgi-stable
-    requires:
-      - architecture
-      - compiler
-      - mpi
-    <<: *parallel-specs
-    blacklist:
-      - omega-h@9.17.2
-      - petsc+int64+mpi@3.9.3
-      - trilinos+kokkos+teuchos@12.12.1
-  # with default llvm toolchain
-  llvm-stable-parallel:
-    target_matrix:
-      - llvm-stable
-    requires:
-      - architecture
-      - compiler
-      - mpi
-    <<: *parallel-specs
+    specs:
+      - neuron@2018-10

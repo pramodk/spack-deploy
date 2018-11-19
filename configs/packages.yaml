@@ -1,112 +1,131 @@
 packages:
-
-  ####
-  # Common libraries that we delegate to the OS
-  ####
-
-  openssl:
-    buildable: False
-    paths:
-      openssl@system: /usr/lib64
-
-  jdk:
-    buildable: False
-    paths:
-      jdk@8u141-b16: /usr/lib/jvm/jre
-
-  ####
-  # Intel compilers and libraries
-  ####
-
-  intel:
-    buildable: False
-    paths:
-      intel@18.0.2%gcc@4.8.5: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux
-
-  intel-mpi:
-    buildable: False
-    paths:
-      intel-mpi@2018.2.199 %intel@18.0.2: /ssoft/spack/external/intel/2018.2/impi/2018.2.199
-
-  intel-mkl:
-    buildable: False
-    paths:
-      intel-mkl @2018.2.199 %intel@18.0.2: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux/mkl
-      intel-mkl threads=openmp @2018.2.199 %intel@18.0.2: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux/mkl
-
-  ####
-  # Third party software
-  ####
-
-  # TODO: Abaqus needs to be reinstalled with the intel@2018
-  # TODO: first available window is beginning of July
-  # abaqus:
-  #   buildable: False
-  #   version: ['@6.14-1']
-  #   paths:
-  #     abaqus@6.14-1%intel@17.0.2: /ssoft/spack/external/abaqus/6.14-1
-
-  adf:
-    buildable: False
-    paths:
-      adf@2017.111 %gcc@4.8.5: /ssoft/spack/external/adf/adf2017.111
-
-  ansys:
-    buildable: False
-    paths:
-      ansys@17.1%gcc@4.8.5: /ssoft/spack/external/ansys/17.1/v171
-
-  cfdplusplus:
-    buildable: False
-    paths:
-      cfdplusplus@16.1%gcc@4.8.5: /ssoft/spack/external/CFD++/2016.05
-
-  comsol:
-    buildable: False
-    paths:
-      comsol@5.3 %gcc@4.8.5: /ssoft/spack/external/comsol/5.3
-
-  fdtd:
-    buildable: False
-    paths:
-      fdtd@8.20.1703 %gcc@4.8.5: /ssoft/spack/external/fdtd/8.20.1703
-      fdtd@8.19.1416-1 %gcc@4.8.5: /ssoft/spack/external/fdtd/8.19.1416-1
-      # installed due to segfault with other versions INC0204566
-      fdtd@8.12.527 %gcc@4.8.5: /ssoft/spack/external/fdtd/8.12.527
-
-  likwid:
-    buildable: False
-    version: ['@4.3.0']
-    paths:
-      likwid@4.3.0 %gcc@4.8.5: /ssoft/spack/external/LIKWID/4.3.0
-
-  gaussian:
-    buildable: False
-    paths:
-      gaussian@g16-A.03 %gcc@4.8.5: /ssoft/spack/external/gaussian/g16-A.03
-
-  matlab:
-    buildable: False
-    paths:
-      matlab@R2018a %gcc@4.8.5: /ssoft/spack/external/MATLAB/R2018a
-
-  maple:
-    buildable: False
-    paths:
-      maple@2017 %gcc@4.8.5: /ssoft/spack/external/Maple/2017
-
-  mathematica:
-    buildable: False
-    paths:
-      mathematica@9.0.1 %gcc@4.8.5: /ssoft/spack/external/Mathematica/9.0.1
-      mathematica@11.1.1 %gcc@4.8.5: /ssoft/spack/external/Mathematica/11.1.1
-
-  smr:
-    buildable: False
-    paths:
-      smr@2017.06 %gcc@4.8.5: /ssoft/spack/external/SMR/2017.06
-
-  totalview:
-    buildable: False
-    paths:
-      totalview@2017.2.11 %gcc@4.8.5: /ssoft/spack/external/toolworks/totalview.2017.2.11
+    autoconf:
+        paths:
+            autoconf@2.69: /usr
+        version: [2.69]
+    automake:
+        paths:
+            automake@1.13.4: /usr
+        version: [1.13.4]
+    bison:
+        paths:
+            bison@3.0.4: /usr
+        version: [3.0.4]
+    bzip2:
+        paths:
+            bzip2@1.0.6: /usr
+        version: [1.0.6]
+    cairo:
+        paths:
+            cairo@1.8.10: /usr
+        version: [1.8.10]
+    curl:
+        paths:
+            curl@7.29.0: /usr
+        version: [7.29.0]
+    flex:
+        paths:
+            flex@2.5.37: /usr
+        version: [2.5.37]
+    fontconfig:
+        paths:
+            fontconfig@2.10.95: /usr
+        version: [2.10.95]
+    glib:
+        paths:
+            glib@2.50.3: /usr
+        version: [2.50.3]
+    gtkplus:
+        paths:
+            gtkplus@2.24.31: /usr
+        version: [2.24.31]
+    hpe-mpi:
+        paths:
+            hpe-mpi@2.16: /opt/hpe/hpc/mpt/mpt-2.16
+        version: [2.16]
+    libjpeg:
+        paths:
+            libjpeg@1.2.90: /usr
+        version: [1.2.90]
+    libgcrypt:
+        paths:
+            libgcrypt@1.5.3: /usr
+        version: [1.5.3]
+    libmng:
+        paths:
+            libmng@1.0.10: /usr
+        version: [1.0.10]
+    libtool:
+        paths:
+            libtool@2.4.2: /usr
+        version: [2.4.2]
+    libxml2:
+        paths:
+            libxml2@2.9.1: /usr
+        version: [2.9.1]
+    m4:
+        paths:
+            m4@1.4.16: /usr
+        version: [1.4.16]
+    ncurses:
+        paths:
+            ncurses@5.9: /usr
+        version: [5.9]
+    # can not be installed with python 3
+    node-js:
+        paths:
+            node-js@6.12.2: /usr
+        version: [6.12.2]
+    openssl:
+        paths:
+            openssl@1.0.2k: /usr
+        version: [1.0.2k]
+    pango:
+        paths:
+            pango@1.40.4: /usr
+        version: [1.40.4]
+    pcre:
+        paths:
+            pcre@8.32+jit+utf: /usr
+        version: [8.32]
+    perl:
+        paths:
+            perl@5.16.3: /usr
+        version: [5.16.3]
+    petsc:
+        variants: +patchmpi64
+    pkg-config:
+        paths:
+            pkg-config@0.27.1: /usr
+        version: [0.27.1]
+    slurm:
+        paths:
+            slurm@17.02: /usr
+        buildable: False
+        version: [17.02]
+    steps:
+        variants: +lapack+petsc+mpi
+    tar:
+        paths:
+            tar@1.26: /usr
+        version: [1.26]
+    #tcl:
+    #    paths:
+    #        tcl@8.5.13: /usr
+    #    version: [8.5.13]
+    tk:
+        paths:
+            tk@8.5.13: /usr
+        version: [8.5.13]
+    trilinos:
+        variants: +kokkos+teuchos~amesos~hypre~superlu-dist~mumps~metis~suite-sparse
+        version: [xsdk-0.4.0-rc1]
+    xz:
+        paths:
+            xz@5.2: /usr
+        version: [5.2]
+    all:
+        compiler: [gcc@6.4.0, intel@18.0.1]
+        providers:
+            mpi: [hpe-mpi, intel-mpi]
+            scalapack: [intel-mkl, netlib-scalapack]

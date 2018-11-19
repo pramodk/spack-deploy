@@ -1,12 +1,11 @@
 config:
-  # Root of the installation tree
-  install_tree: /ssoft/spack/paien/v2/opt/spack/
-
-  # Root of the module files
+  install_tree: $SOFTS_DIR_PATH/install
+  source_cache: $SOFTS_DIR_PATH/.cache
   module_roots:
-    tcl: /ssoft/spack/paien/v2/share/spack/modules
-    lmod: /ssoft/spack/paien/v2/share/spack/lmod
-    dotkit: /ssoft/spack/paien/v2/share/spack/dotkit
-
+    tcl: $SOFTS_DIR_PATH/modules/tcl
+    lmod: $SOFTS_DIR_PATH/modules/lmod
   build_stage:
-    - /tmp/paien.v2
+    - $tempdir
+    - $SOFTS_DIR_PATH/.stage
+  install_path_scheme: '${ARCHITECTURE}/${COMPILERNAME}-${COMPILERVER}/${PACKAGE}-${VERSION}-${HASH:10}'
+  build_jobs: 36
