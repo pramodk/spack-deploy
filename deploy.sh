@@ -145,7 +145,7 @@ generate_specs() {
         rm -f "${datadir}/specs.txt"
         for stub in ${spec_definitions[$stage]}; do
             log "...using ${stub}.yaml"
-            spackd --input packages/${stub}.yaml packages x86_64 > "${datadir}/specs.txt"
+            spackd --input packages/${stub}.yaml packages x86_64 >> "${datadir}/specs.txt"
         done
     done
 }
