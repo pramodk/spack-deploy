@@ -4,15 +4,16 @@
 #
 # DEPLOYMENT_ROOT: path to deploy to
 
+set -o errexit
 set -o nounset
 
-DEFAULT_DEPLOYMENT_DIR="/gpfs/bbp.cscs.ch/ssd/tmp_compile/deploy_test"
+DEFAULT_DEPLOYMENT_ROOT="/gpfs/bbp.cscs.ch/apps/hpc/test/$(whoami)/deployment"
+DEFAULT_DEPLOYMENT_DATA="/gpfs/bbp.cscs.ch/data/project/proj20/pramod_scratch/SPACK_DEPLOYMENT/download"
 DEFAULT_DEPLOYMENT_DATE="$(date +%Y-%m-%d)"
 
-DEFAULT_DEPLOYMENT_DATA="/gpfs/bbp.cscs.ch/data/project/proj20/pramod_scratch/SPACK_DEPLOYMENT/download"
 
 DEPLOYMENT_DATA=${DEPLOYMENT_DATA:-${DEFAULT_DEPLOYMENT_DATA}}
-DEPLOYMENT_ROOT=${DEPLOYMENT_ROOT:-${DEFAULT_DEPLOYMENT_DIR}}
+DEPLOYMENT_ROOT=${DEPLOYMENT_ROOT:-${DEFAULT_DEPLOYMENT_ROOT}}
 SPACK_MIRROR_DIR="${DEPLOYMENT_ROOT}/mirror"
 export DEPLOYMENT_ROOT SPACK_MIRROR_DIR
 
@@ -59,7 +60,7 @@ configure_compilers() {
                     echo "-gcc-name=${GCC_DIR}/bin/gcc" >> ${f}
                     echo "-Xlinker -rpath=${GCC_DIR}/lib" >> ${f}
                     echo "-Xlinker -rpath=${GCC_DIR}/lib64" >> ${f}
-                    log "[CFG] Updated ${f} with newer GCC"
+                    log "updated ${f} with newer GCC"
                 fi
             done
         elif [[ ${line} = *"pgi"* ]]; then
@@ -134,7 +135,7 @@ generate_specs() {
 
         mkdir -p "${datadir}"
         env &> "${datadir}/spack_deploy.env"
-        git --rev-parse HEAD &> "${datadir}/spack_deploy.version"
+        git rev-parse HEAD &> "${datadir}/spack_deploy.version"
 
         rm -f "${datadir}/specs.txt"
         for stub in ${spec_definitions[$stage]}; do
@@ -196,6 +197,7 @@ install_specs() {
         check_specs "${spec_list}"
         log "...installing specs"
         spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
+        cp "${HOME}/stack.xml" "${what}.xml"
     fi
 
     spack module tcl refresh --delete-tree -y

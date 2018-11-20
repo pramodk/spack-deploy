@@ -13,7 +13,7 @@ gnu-stable:
   architecture:
   - x86_64
   compiler:
-  - gcc@8.2.0
+  - gcc@6.4.0
   mpi:
   - hpe-mpi@2.16
   lapack:
