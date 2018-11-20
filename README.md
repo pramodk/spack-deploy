@@ -203,16 +203,15 @@ Python package of this repository and subsequently build by Spack.
 #### Deployment configuration
 
 The definitions of software can be found in the `packages` directory:
-```
-packages
-├── bbp-packages.yaml
-├── compilers.yaml
-├── parallel-libraries.yaml
-├── python-packages.yaml
-├── serial-libraries.yaml
-├── system-tools.yaml
-└── toolchains.yaml
-```
+
+    packages
+    ├── bbp-packages.yaml
+    ├── compilers.yaml
+    ├── parallel-libraries.yaml
+    ├── python-packages.yaml
+    ├── serial-libraries.yaml
+    ├── system-tools.yaml
+    └── toolchains.yaml
 
 Files used for the stages:
 
@@ -226,76 +225,85 @@ Files used for the stages:
 #### Spack configuration
 
 The basic Spack configuration should be in the folder `configs`:
-```
-configs
-├── compilers
-│   └── modules.yaml
-├── config.yaml
-├── modules.yaml
-└── packages.yaml
-```
+
+    configs
+    ├── compilers
+    │   └── modules.yaml
+    ├── config.yaml
+    ├── modules.yaml
+    └── packages.yaml
+
 If a folder named after a deployment stage is present, the configuration
 files in said folder override the more generic ones within `configs`.
 
 All but the compilers stage also copy a `compilers.yaml` and
 `packages.yaml` from the previous stage.
 
+### Preparing the deployment
+
+The deployment will need a checkout of Spack and licenses for proprietary
+software already present in the directory structure. 
+
+    $ export DEPLOYMENT_ROOT=${PWD}/test
+    $ git clone git@github.com:BlueBrain/spack.git ${DEPLOYMENT_ROOT}/deploy/spack
+    $ git clone ssh://bbpcode.epfl.ch/user/kumbhar/spack-licenses ${DEPLOYMENT_ROOT}/deploy/spack/etc/spack/licenses
+
+### Generating all specs
+
 The deployment script can be found in the root of this repository as
 `deploy.sh`.
 To generate and install the specs to be installed for all stages, use:
-```
-$ export DEPLOYMENT_ROOT=${PWD}/test
-$ git clone git@github.com:BlueBrain/spack.git ${DEPLOYMENT_ROOT}/deploy/spack
-$ ./deploy.sh -g all
-### updating the deployment virtualenv
-### generating specs for compilers
-### ...using compilers.yaml
-### generating specs for tools
-### ...using system-tools.yaml
-### generating specs for libraries
-### ...using parallel-libraries.yaml
-### ...using serial-libraries.yaml
-### ...using python-packages.yaml
-### generating specs for applications
-### ...using bbp-packages.yaml
-```
+
+    $ export DEPLOYMENT_ROOT=${PWD}/test
+    $ ./deploy.sh -g all
+    ### updating the deployment virtualenv
+    ### generating specs for compilers
+    ### ...using compilers.yaml
+    ### generating specs for tools
+    ### ...using system-tools.yaml
+    ### generating specs for libraries
+    ### ...using parallel-libraries.yaml
+    ### ...using serial-libraries.yaml
+    ### ...using python-packages.yaml
+    ### generating specs for applications
+    ### ...using bbp-packages.yaml
 
 This results in the following directory structure:
-```
-${DEPLOYMENT_ROOT}
-├── deploy
-│   └── venv
-└── install
-    ├── applications
-    │   └── 2018-11-13
-    │       └── data
-    │           ├── spack_deploy.env
-    │           ├── spack_deploy.version
-    │           └── specs.txt
-    ├── compilers
-    │   └── 2018-11-13
-    │       └── data
-    │           ├── spack_deploy.env
-    │           ├── spack_deploy.version
-    │           └── specs.txt
-    ├── libraries
-    │   └── 2018-11-13
-    │       └── data
-    │           ├── spack_deploy.env
-    │           ├── spack_deploy.version
-    │           └── specs.txt
-    └── tools
-        └── 2018-11-13
-            └── data
-                ├── spack_deploy.env
-                ├── spack_deploy.version
-                └── specs.txt
-```
+
+    ${DEPLOYMENT_ROOT}
+    ├── deploy
+    │   ├── spack
+    │   └── venv
+    └── install
+        ├── applications
+        │   └── 2018-11-13
+        │       └── data
+        │           ├── spack_deploy.env
+        │           ├── spack_deploy.version
+        │           └── specs.txt
+        ├── compilers
+        │   └── 2018-11-13
+        │       └── data
+        │           ├── spack_deploy.env
+        │           ├── spack_deploy.version
+        │           └── specs.txt
+        ├── libraries
+        │   └── 2018-11-13
+        │       └── data
+        │           ├── spack_deploy.env
+        │           ├── spack_deploy.version
+        │           └── specs.txt
+        └── tools
+            └── 2018-11-13
+                └── data
+                    ├── spack_deploy.env
+                    ├── spack_deploy.version
+                    └── specs.txt
 
 To install the system tools:
-```
-$ ./deploy.sh -i tools
-```
+
+    $ ./deploy.sh -i tools
+
 
 #### Todo : Jenkins Pipeline Workflow
 
