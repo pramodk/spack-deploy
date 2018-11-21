@@ -89,7 +89,7 @@ populate_mirror() {
 
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
-        return 1
+        return 0
     fi
 
     if [[ "${what}" = "compilers" ]]; then
@@ -195,7 +195,7 @@ install_specs() {
 
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
-        return 1
+        return 0
     else
         log "found the following specs"
         echo "${spec_list}"
@@ -207,6 +207,7 @@ install_specs() {
     fi
 
     spack module tcl refresh --delete-tree -y
+    . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
     spack export --scope=user --explicit --module tcl > "${HOME}/packages.yaml"
 
     if [[ "${what}" == "compilers" && -n "${spec_list}" ]]; then
