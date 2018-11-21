@@ -263,6 +263,7 @@ for what in "$@"; do
     desired[${what}]=Yes
 done
 
+unset $(set +x; env | awk -F= '/^(PMI|SLURM)_/ {print $1}' | xargs)
 
 [[ ${do_generate} != "no" ]] && generate_specs "$@"
 for what in ${stages}; do
