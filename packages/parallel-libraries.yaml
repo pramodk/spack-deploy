@@ -23,7 +23,7 @@ packages:
       - highfive@1.6
       - matio@1.5.9
       - netcdf@4.6.1
-      - omega-h@9.22.1
+      - omega-h@9.22.2
       - parmetis@4.0.3
 
   gnu-stable-parallel-lapack:
