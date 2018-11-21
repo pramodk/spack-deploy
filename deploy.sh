@@ -191,7 +191,7 @@ install_specs() {
     populate_mirror "${what}"
 
     log "gathering specs"
-    spec_list=$(spack filter --not-installed $(cat ${HOME}/specs.txt))
+    spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
 
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
