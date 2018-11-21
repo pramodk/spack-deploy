@@ -82,9 +82,15 @@ configure_compilers() {
 
 populate_mirror() {
     what=$1
-    specfile="$(install_dir ${what})/data/specs.txt"
-
     log "populating mirror for ${what}"
+
+    specfile="$(install_dir ${what})/data/specs.txt"
+    spec_list=$(spack filter --not-installed $(cat ${specfile}))
+
+    if [[ -z "${spec_list}" ]]; then
+        log "...found no new packages"
+        return 0
+    fi
 
     if [[ "${what}" = "compilers" ]]; then
         for compiler in intel intel-parallel-studio pgi; do
@@ -93,10 +99,9 @@ populate_mirror() {
         done
     fi
 
-    while read -r package; do
-        spack mirror create -D -d ${SPACK_MIRROR_DIR} ${package}
-    done < "${specfile}"
-
+    log "found the following specs"
+    echo "${spec_list}"
+    spack mirror create -D -d ${SPACK_MIRROR_DIR} ${spec_list}
     spack mirror add --scope=user my_mirror ${SPACK_MIRROR_DIR} || log "mirror already added!"
 }
 
@@ -140,7 +145,7 @@ generate_specs() {
         rm -f "${datadir}/specs.txt"
         for stub in ${spec_definitions[$stage]}; do
             log "...using ${stub}.yaml"
-            spackd --input packages/${stub}.yaml packages x86_64 > "${datadir}/specs.txt"
+            spackd --input packages/${stub}.yaml packages x86_64 >> "${datadir}/specs.txt"
         done
     done
 }
@@ -186,21 +191,23 @@ install_specs() {
     populate_mirror "${what}"
 
     log "gathering specs"
-    spec_list="$(filter_specs ${HOME}/specs.txt)"
+    spec_list=$(spack filter --not-installed $(< ${HOME}/specs.txt))
+
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
-        return 1
+        return 0
     else
         log "found the following specs"
         echo "${spec_list}"
         log "...checking specs"
-        check_specs "${spec_list}"
+        spack spec -Il ${spec_list}
         log "...installing specs"
-        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" "${spec_list}"
+        spack install -y --log-format=junit --log-file="${HOME}/stack.xml" ${spec_list}
         cp "${HOME}/stack.xml" "${what}.xml"
     fi
 
     spack module tcl refresh --delete-tree -y
+    . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
     spack export --scope=user --explicit --module tcl > "${HOME}/packages.yaml"
 
     if [[ "${what}" == "compilers" && -n "${spec_list}" ]]; then
@@ -255,6 +262,8 @@ declare -A desired
 for what in "$@"; do
     desired[${what}]=Yes
 done
+
+unset $(set +x; env | awk -F= '/^(PMI|SLURM)_/ {print $1}' | xargs)
 
 [[ ${do_generate} != "no" ]] && generate_specs "$@"
 for what in ${stages}; do
