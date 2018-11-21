@@ -66,8 +66,8 @@ packages:
       - architecture
       - compiler
       - mpi
-      - lapack
-      - python
+      #- lapack
+      #- python
     specs:
       - zee@develop
 
@@ -99,5 +99,4 @@ packages:
       - neurodamus@plasticity
       - neurodamus@master~coreneuron
       - neurodamus@hippocampus~coreneuron
-      - neuron@2018-10
       - synapsetool@0.3.2
