@@ -195,7 +195,6 @@ install_specs() {
 
     if [[ -z "${spec_list}" ]]; then
         log "...found no new packages"
-        return 0
     else
         log "found the following specs"
         echo "${spec_list}"
@@ -208,14 +207,17 @@ install_specs() {
 
     spack module tcl refresh --delete-tree -y
     . ${DEPLOYMENT_ROOT}/deploy/spack/share/spack/setup-env.sh
-    spack export --scope=user --explicit --module tcl > "${HOME}/packages.yaml"
+    spack export --scope=user --explicit > "${HOME}/packages.yaml"
 
-    if [[ "${what}" == "compilers" && -n "${spec_list}" ]]; then
-        log "adding compilers"
-        configure_compilers <<< "${spec_list}"
+    if [[ "${what}" = "compilers" ]]; then
+        cp configs/packages.yaml ${HOME}/packages.yaml
+        if [[ -n "${spec_list}" ]]; then
+            log "adding compilers"
+            configure_compilers <<< "${spec_list}"
+        fi
     fi
 
-    cp "${HOME}/.spack/compilers.yaml" "${HOME}"
+    cp "${HOME}/.spack/compilers.yaml" "${HOME}" || true
 }
 
 usage() {
